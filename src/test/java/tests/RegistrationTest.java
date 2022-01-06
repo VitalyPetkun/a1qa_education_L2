@@ -25,6 +25,8 @@ public class RegistrationTest extends BaseTest{
         RegistrationPageSteps.loginFormBtnNextClick();
         RegistrationPageSteps.assertIsAvatarAndInterestsFormOpen();
 
+        RegistrationPageSteps.uploadAvatarIcon();
+        RegistrationPageSteps.threeRandomInterestsSelect();
         RegistrationPageSteps.assertIsPersonalDetailsFormOpen();
     }
 }

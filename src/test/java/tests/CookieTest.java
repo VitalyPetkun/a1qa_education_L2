@@ -19,7 +19,6 @@ public class CookieTest extends BaseTest{
         welcomePageSteps.assertIsWelcomePageOpen();
 
         welcomePageSteps.linkNextPageClick();
-        registrationPageSteps.getCookieFormSteps().clickButtonNotReallyNo();
-        registrationPageSteps.getCookieFormSteps().isClose();
+
     }
 }

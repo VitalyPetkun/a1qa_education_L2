@@ -1,5 +1,6 @@
 package pages.registrationpage;
 
+import aquality.selenium.elements.ElementType;
 import aquality.selenium.elements.actions.JsActions;
 import aquality.selenium.elements.interfaces.ILabel;
 import aquality.selenium.forms.Form;
@@ -15,6 +16,6 @@ public class RegistrationPage extends Form {
     }
 
     public String getLabelTimerText() {
-        return new JsActions(labelTimer,"Label").getElementText();
+        return new JsActions(labelTimer, ElementType.LABEL.name()).getElementText();
     }
 }

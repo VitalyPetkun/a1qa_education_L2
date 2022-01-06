@@ -1,5 +1,6 @@
 package pages.registrationpage.forms;
 
+import aquality.selenium.elements.ElementType;
 import aquality.selenium.elements.actions.JsActions;
 import aquality.selenium.elements.interfaces.IButton;
 import aquality.selenium.elements.interfaces.ICheckBox;
@@ -36,7 +37,7 @@ public class LoginForm extends Form {
     }
 
     public void passwordScrollIntoView() {
-        new JsActions(password,"TextBox").scrollIntoView();
+        new JsActions(password, ElementType.TEXTBOX.name()).scrollIntoView();
     }
 
     public void passwordInput() {
@@ -52,7 +53,7 @@ public class LoginForm extends Form {
     }
 
     public void domainExtensionsClick() {
-        new JsActions(comboBoxDomainExtensions,"ComboBox").clickAndWait();
+        new JsActions(comboBoxDomainExtensions,ElementType.COMBOBOX.name()).clickAndWait();
     }
 
     public void domainExtensionsItemClick() {

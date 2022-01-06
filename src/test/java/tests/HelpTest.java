@@ -19,7 +19,6 @@ public class HelpTest extends BaseTest{
         welcomePageSteps.assertIsWelcomePageOpen();
 
         welcomePageSteps.linkNextPageClick();
-        registrationPageSteps.getHelpFormSteps().clickBtnSendToBottom();
-        registrationPageSteps.getHelpFormSteps().isClose();
+
     }
 }
