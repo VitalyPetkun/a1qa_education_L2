@@ -4,12 +4,7 @@ import aquality.selenium.browser.AqualityServices;
 import org.testng.Assert;
 import pages.registrationpage.RegistrationPage;
 import pages.registrationpage.forms.*;
-import utils.ConfigManager;
 import utils.CooperationWithDialogWindow;
-
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyEvent;
 
 public class RegistrationPageSteps {
 
@@ -76,8 +71,6 @@ public class RegistrationPageSteps {
     }
 
     public static void threeRandomInterestsSelect() {
-        String pageSource = AqualityServices.getBrowser().getDriver().getPageSource();
-
         int rand;
 
         for(int index = 0; index <= getListCheckBoxInterestsSize()-1; index++) {
@@ -101,31 +94,6 @@ public class RegistrationPageSteps {
 
     private static void btnUnloadAvatarClick() {
         avatarAndInterestsForm.btnUnloadAvatarClick();
-    }
-
-    private static void openFileDialogWindow() {
-        try {
-            Thread.sleep(ConfigManager.getConfigInt("sleepTime"));
-
-            Robot robot = new Robot();
-            StringSelection stringSelection = new StringSelection(System.getProperty("user.dir") + "\\" +
-                    ConfigManager.getTestDataString("pathAvatarIcon") + "\\" +
-                    ConfigManager.getTestDataString("nameAvatarIcon"));
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
-
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-            robot.keyRelease(KeyEvent.VK_V);
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-
-            Thread.sleep(ConfigManager.getConfigInt("sleepTime"));
-        } catch (AWTException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void uploadAvatarIcon() {
@@ -166,7 +134,6 @@ public class RegistrationPageSteps {
     }
 
     public static void assertIsAvatarAndInterestsFormOpen() {
-      //  avatarAndInterestsForm = new AvatarAndInterestsForm();
         Assert.assertTrue(avatarAndInterestsForm.isDisplayed(),"Avatar and interests form isn't open.");
     }
 

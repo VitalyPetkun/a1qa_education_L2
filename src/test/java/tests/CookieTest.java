@@ -10,13 +10,15 @@ public class CookieTest extends BaseTest{
 
     @Test
     public void acceptCookie() {
-
+        logger.info("Navigate to welcome page");
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
         WelcomePageSteps.assertIsWelcomePageOpen();
 
+        logger.info("Click link for navigate to login form");
         WelcomePageSteps.linkNextPageClick();
         RegistrationPageSteps.assertIsCookieFormOpen();
 
+        logger.info("Click button for accept all cookies");
         RegistrationPageSteps.btnNotReallyNoClick();
         RegistrationPageSteps.assertIsCookieFormHidden();
     }

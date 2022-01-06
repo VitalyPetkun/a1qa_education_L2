@@ -10,10 +10,11 @@ public class TimerTest extends BaseTest{
 
     @Test
     public void checkTimer() {
-
+        logger.info("Navigate to welcome page");
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
         WelcomePageSteps.assertIsWelcomePageOpen();
 
+        logger.info("Click link for navigate to login form");
         WelcomePageSteps.linkNextPageClick();
         RegistrationPageSteps.assertIsRegistrationPageOpen();
 
