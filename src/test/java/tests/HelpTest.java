@@ -2,7 +2,7 @@ package tests;
 
 import aquality.selenium.browser.AqualityServices;
 import org.testng.annotations.Test;
-import steps.registrationsteps.RegistrationPageSteps;
+import steps.RegistrationPageSteps;
 import steps.WelcomePageSteps;
 import utils.ConfigManager;
 
@@ -16,9 +16,9 @@ public class HelpTest extends BaseTest{
         registrationPageSteps = new RegistrationPageSteps();
 
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
-        welcomePageSteps.isOpen();
+        welcomePageSteps.assertIsWelcomePageOpen();
 
-        welcomePageSteps.clickLinkNextPage();
+        welcomePageSteps.linkNextPageClick();
         registrationPageSteps.getHelpFormSteps().clickBtnSendToBottom();
         registrationPageSteps.getHelpFormSteps().isClose();
     }

@@ -3,7 +3,7 @@ package tests;
 import aquality.selenium.browser.AqualityServices;
 import org.testng.annotations.Test;
 import steps.WelcomePageSteps;
-import steps.registrationsteps.RegistrationPageSteps;
+import steps.RegistrationPageSteps;
 import utils.ConfigManager;
 
 public class CookieTest extends BaseTest{
@@ -16,9 +16,9 @@ public class CookieTest extends BaseTest{
         registrationPageSteps = new RegistrationPageSteps();
 
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
-        welcomePageSteps.isOpen();
+        welcomePageSteps.assertIsWelcomePageOpen();
 
-        welcomePageSteps.clickLinkNextPage();
+        welcomePageSteps.linkNextPageClick();
         registrationPageSteps.getCookieFormSteps().clickButtonNotReallyNo();
         registrationPageSteps.getCookieFormSteps().isClose();
     }

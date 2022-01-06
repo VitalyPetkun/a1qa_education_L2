@@ -3,16 +3,14 @@ package steps;
 import org.testng.Assert;
 import pages.WelcomePage;
 
-public class WelcomePageSteps extends WelcomePage {
-    public WelcomePageSteps() {
-        super();
+public class WelcomePageSteps {
+    private static final WelcomePage welcomePage = new WelcomePage();
+
+    public static void linkNextPageClick() {
+        welcomePage.linkNextPageClick();
     }
 
-    public void clickLinkNextPage() {
-        super.getElementFactory().getLink(XPATH_LINK_NEXT_PAGE, "Link next page").click();
-    }
-
-    public void isOpen() {
-        Assert.assertTrue(this.isDisplayed());
+    public static void assertIsWelcomePageOpen() {
+        Assert.assertTrue(welcomePage.isDisplayed(),"Welcome page isn't open.");
     }
 }
