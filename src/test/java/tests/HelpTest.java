@@ -7,18 +7,18 @@ import steps.WelcomePageSteps;
 import utils.ConfigManager;
 
 public class HelpTest extends BaseTest{
-    private WelcomePageSteps welcomePageSteps;
-    private RegistrationPageSteps registrationPageSteps;
 
     @Test
     public void actionsHelpForm() {
-        welcomePageSteps = new WelcomePageSteps();
-        registrationPageSteps = new RegistrationPageSteps();
 
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
-        welcomePageSteps.assertIsWelcomePageOpen();
+        WelcomePageSteps.assertIsWelcomePageOpen();
 
-        welcomePageSteps.linkNextPageClick();
+        WelcomePageSteps.linkNextPageClick();
+        RegistrationPageSteps.assertIsHelpFormOpen();
 
+        RegistrationPageSteps.btnSendToBottomClick();
+        RegistrationPageSteps.waitForHelpFormHidden();
+        RegistrationPageSteps.assertIsHelpFormHidden();
     }
 }

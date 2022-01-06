@@ -53,7 +53,7 @@ public class LoginForm extends Form {
     }
 
     public void domainExtensionsClick() {
-        new JsActions(comboBoxDomainExtensions,ElementType.COMBOBOX.name()).clickAndWait();
+        new JsActions(comboBoxDomainExtensions, ElementType.COMBOBOX.name()).clickAndWait();
     }
 
     public void domainExtensionsItemClick() {

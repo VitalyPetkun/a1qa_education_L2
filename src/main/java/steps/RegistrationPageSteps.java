@@ -1,10 +1,9 @@
 package steps;
 
+import aquality.selenium.browser.AqualityServices;
 import org.testng.Assert;
 import pages.registrationpage.RegistrationPage;
-import pages.registrationpage.forms.AvatarAndInterestsForm;
-import pages.registrationpage.forms.LoginForm;
-import pages.registrationpage.forms.PersonalDetailsForm;
+import pages.registrationpage.forms.*;
 import utils.ConfigManager;
 import utils.CooperationWithDialogWindow;
 
@@ -18,6 +17,8 @@ public class RegistrationPageSteps {
     private static final LoginForm loginForm = new LoginForm();
     private static final AvatarAndInterestsForm avatarAndInterestsForm = new AvatarAndInterestsForm();
     private static final PersonalDetailsForm personalDetailsForm = new PersonalDetailsForm();
+    private static final CookieForm cookieForm = new CookieForm();
+    private static final HelpForm helpForm = new HelpForm();
 
     private static void passwordScrollIntoView() {
         loginForm.passwordScrollIntoView();
@@ -75,6 +76,8 @@ public class RegistrationPageSteps {
     }
 
     public static void threeRandomInterestsSelect() {
+        String pageSource = AqualityServices.getBrowser().getDriver().getPageSource();
+
         int rand;
 
         for(int index = 0; index <= getListCheckBoxInterestsSize()-1; index++) {
@@ -134,6 +137,18 @@ public class RegistrationPageSteps {
         avatarAndInterestsForm.btnNextClick();
     }
 
+    public static void btnNotReallyNoClick() {
+        cookieForm.btnNotReallyNoClick();
+    }
+
+    public static void btnSendToBottomClick() {
+        helpForm.btnSendToBottomClick();
+    }
+
+    public static void waitForHelpFormHidden() {
+        AqualityServices.getConditionalWait().waitFor(condition -> (!helpForm.isLblTitleOnScreen()));
+    }
+
     private static String getLabelTimerText() {
         return registrationPage.getLabelTimerText();
     }
@@ -151,9 +166,27 @@ public class RegistrationPageSteps {
     }
 
     public static void assertIsAvatarAndInterestsFormOpen() {
+      //  avatarAndInterestsForm = new AvatarAndInterestsForm();
         Assert.assertTrue(avatarAndInterestsForm.isDisplayed(),"Avatar and interests form isn't open.");
     }
+
     public static void assertIsPersonalDetailsFormOpen() {
         Assert.assertTrue(personalDetailsForm.isDisplayed(),"Personal details form isn't open.");
+    }
+
+    public static void assertIsCookieFormOpen() {
+        Assert.assertTrue(cookieForm.isDisplayed(),"Cookie form isn't open.");
+    }
+
+    public static void assertIsCookieFormHidden() {
+        Assert.assertFalse(cookieForm.isDisplayed(),"Cookie form isn't hidden.");
+    }
+
+    public static void assertIsHelpFormOpen() {
+        Assert.assertTrue(helpForm.isDisplayed(),"Help form isn't open.");
+    }
+
+    public static void assertIsHelpFormHidden() {
+        Assert.assertFalse(helpForm.isDisplayed(),"Help form isn't hidden.");
     }
 }

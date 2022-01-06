@@ -1,13 +1,19 @@
 package pages.registrationpage.forms;
 
+import aquality.selenium.elements.interfaces.IButton;
 import aquality.selenium.forms.Form;
 import org.openqa.selenium.By;
 
 public class CookieForm extends Form {
-    protected final By XPATH_BUTTON_NOT_REALLY_NO =
-            By.xpath("//div[@class='cookies']//button[not(contains(@class,'cookies'))]");
+
+    private final IButton btnNotReallyNo = this.getElementFactory().getButton(
+            By.xpath("//div[@class='cookies']//button[not(contains(@class,'cookies'))]"),"Button 'Not Really, No'");
 
     public CookieForm() {
         super(By.xpath("//div[@class='cookies']"), "Cookie form");
+    }
+
+    public void btnNotReallyNoClick() {
+        this.btnNotReallyNo.click();
     }
 }

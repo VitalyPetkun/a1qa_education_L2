@@ -7,18 +7,17 @@ import steps.RegistrationPageSteps;
 import utils.ConfigManager;
 
 public class CookieTest extends BaseTest{
-    private WelcomePageSteps welcomePageSteps;
-    private RegistrationPageSteps registrationPageSteps;
 
     @Test
     public void acceptCookie() {
-        welcomePageSteps = new WelcomePageSteps();
-        registrationPageSteps = new RegistrationPageSteps();
 
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
-        welcomePageSteps.assertIsWelcomePageOpen();
+        WelcomePageSteps.assertIsWelcomePageOpen();
 
-        welcomePageSteps.linkNextPageClick();
+        WelcomePageSteps.linkNextPageClick();
+        RegistrationPageSteps.assertIsCookieFormOpen();
 
+        RegistrationPageSteps.btnNotReallyNoClick();
+        RegistrationPageSteps.assertIsCookieFormHidden();
     }
 }
