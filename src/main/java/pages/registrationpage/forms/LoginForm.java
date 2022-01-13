@@ -1,7 +1,5 @@
 package pages.registrationpage.forms;
 
-import aquality.selenium.elements.ElementType;
-import aquality.selenium.elements.actions.JsActions;
 import aquality.selenium.elements.interfaces.IButton;
 import aquality.selenium.elements.interfaces.ICheckBox;
 import aquality.selenium.elements.interfaces.IComboBox;
@@ -12,63 +10,59 @@ import utils.ConfigManager;
 
 public class LoginForm extends Form {
 
-    private final ITextBox password = this.getElementFactory().getTextBox(
+    private final ITextBox PASSWORD_TXT = getElementFactory().getTextBox(
             By.xpath("//div[@class='login-form__field-row']//input"), "TextBox password");
-    private final ITextBox email = this.getElementFactory().getTextBox(
+    private final ITextBox EMAIL_TXT = getElementFactory().getTextBox(
             By.xpath("//div[@class='align__cell']//input[contains(@placeholder,'email')]"), "TextBox email");
-    private final ITextBox domain = this.getElementFactory().getTextBox(
+    private final ITextBox DOMAIN_TXT = getElementFactory().getTextBox(
             By.xpath("//div[@class='align__cell']//input[contains(@placeholder,'Domain')]"), "TextBox domain");
 
-    private final IComboBox comboBoxDomainExtensions = this.getElementFactory().getComboBox(
+    private final IComboBox DOMAIN_EXTENSIONS_CMB = getElementFactory().getComboBox(
             By.xpath("//div[@class='dropdown__header']//span"), "ComboBox domain extensions");
-    private final IComboBox comboBoxItemDomainExtensions = this.getElementFactory().getComboBox(
+    private final IComboBox ITEM_DOMAIN_EXTENSIONS_CMB = getElementFactory().getComboBox(
             By.xpath("//div[@class='dropdown__list-item' and text()='" +
                     ConfigManager.getTestDataString("domainExtensions") + "']"),
             "ComboBoxItem domain extensions");
 
-    private final ICheckBox checkBoxTermsAndConditions = this.getElementFactory().getCheckBox(
+    private final ICheckBox TERMS_AND_CONDITINS_CHK = getElementFactory().getCheckBox(
             By.xpath("//span[@class='checkbox__box']"), "CheckBox terms and conditions");
 
-    private final IButton btnNext = this.getElementFactory().getButton(
+    private final IButton NEXT_BTN = getElementFactory().getButton(
             By.xpath("//a[@class='button--secondary']"), "Button 'Next'");
 
     public LoginForm() {
-        super(By.xpath("//div[@class='login-form__container']"),"Login form");
+        super(By.xpath("//div[@class='login-form__container']"), "Login form");
     }
 
-    public void passwordScrollIntoView() {
-        new JsActions(password, ElementType.TEXTBOX.name()).scrollIntoView();
+    public void passwordTxtInput(String password) {
+        PASSWORD_TXT.clearAndType(password);
     }
 
-    public void passwordInput() {
-        password.clearAndType(ConfigManager.getTestDataString("password"));
+    public void emailTxtInput() {
+        EMAIL_TXT.clearAndType(ConfigManager.getTestDataString("email"));
     }
 
-    public void emailInput() {
-        email.clearAndType(ConfigManager.getTestDataString("email"));
+    public void domainTxtInput() {
+        DOMAIN_TXT.clearAndType(ConfigManager.getTestDataString("domain"));
     }
 
-    public void domainInput() {
-        domain.clearAndType(ConfigManager.getTestDataString("domain"));
+    public void domainExtensionsCmbClick() {
+        DOMAIN_EXTENSIONS_CMB.clickAndWait();
     }
 
-    public void domainExtensionsClick() {
-        new JsActions(comboBoxDomainExtensions, ElementType.COMBOBOX.name()).clickAndWait();
+    public void itemDomainExtensionsCmbClick() {
+        ITEM_DOMAIN_EXTENSIONS_CMB.click();
     }
 
-    public void domainExtensionsItemClick() {
-        comboBoxItemDomainExtensions.click();
+    public boolean isTermsAndConditionsChkChecked() {
+        return TERMS_AND_CONDITINS_CHK.isChecked();
     }
 
-    public boolean isTermsAndConditionsChecked() {
-        return checkBoxTermsAndConditions.isChecked();
+    public void termsAndConditionsChkCheck() {
+        TERMS_AND_CONDITINS_CHK.check();
     }
 
-    public void termsAndConditionsCheck() {
-        checkBoxTermsAndConditions.check();
-    }
-
-    public void btnNextClick() {
-        btnNext.click();
+    public void nextBtnClick() {
+        NEXT_BTN.click();
     }
 }

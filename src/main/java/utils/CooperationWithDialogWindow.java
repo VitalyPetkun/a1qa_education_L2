@@ -5,14 +5,14 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 
 public class CooperationWithDialogWindow {
+
     public static void openFileDialogWindow(String resourcesPath, String nameFile) {
+
         try {
             Thread.sleep(ConfigManager.getConfigInt("sleepTime"));
-
             Robot robot = new Robot();
             StringSelection stringSelection = new StringSelection(System.getProperty("user.dir") + "\\" +
-                    ConfigManager.getTestDataString(resourcesPath) + "\\" +
-                    ConfigManager.getTestDataString(nameFile));
+                    ConfigManager.getTestDataString(resourcesPath) + "\\" + ConfigManager.getTestDataString(nameFile));
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
 
             robot.keyPress(KeyEvent.VK_CONTROL);

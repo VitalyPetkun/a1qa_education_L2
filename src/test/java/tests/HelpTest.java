@@ -6,21 +6,21 @@ import steps.RegistrationPageSteps;
 import steps.WelcomePageSteps;
 import utils.ConfigManager;
 
-public class HelpTest extends BaseTest{
+public class HelpTest extends BaseTest {
 
     @Test
     public void actionsHelpForm() {
-        logger.info("Navigate to welcome page");
+        LOGGER.info("Navigate to welcome page");
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
         WelcomePageSteps.assertIsWelcomePageOpen();
 
-        logger.info("Click link for navigate to login form");
-        WelcomePageSteps.linkNextPageClick();
+        LOGGER.info("Click link for navigate to login form");
+        WelcomePageSteps.nextPageLnkClick();
         RegistrationPageSteps.assertIsHelpFormOpen();
 
-        logger.info("Click button for help form hidden");
-        RegistrationPageSteps.btnSendToBottomClick();
-        logger.info("Wait for help form hides");
+        LOGGER.info("Click button for help form hidden");
+        RegistrationPageSteps.sendToBottomBtnClick();
+        LOGGER.info("Wait for help form hides");
         RegistrationPageSteps.waitForHelpFormHidden();
         RegistrationPageSteps.assertIsHelpFormHidden();
     }

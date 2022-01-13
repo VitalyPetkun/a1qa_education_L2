@@ -1,7 +1,5 @@
 package pages.registrationpage.forms;
 
-import aquality.selenium.elements.ElementType;
-import aquality.selenium.elements.actions.JsActions;
 import aquality.selenium.elements.interfaces.IButton;
 import aquality.selenium.elements.interfaces.ILabel;
 import aquality.selenium.forms.Form;
@@ -9,21 +7,21 @@ import org.openqa.selenium.By;
 
 public class HelpForm extends Form {
 
-    private final IButton btnSendToBottom = this.getElementFactory().getButton(
+    private final IButton SEND_TO_BOTTOM_BTN = getElementFactory().getButton(
             By.xpath("//button[contains(@class,'send-to-bottom')]"), "Button 'Send to bottom'");
 
-    private final ILabel lblTitle = this.getElementFactory().getLabel(
-            By.xpath("//h2[contains(@class,'help-form')]"), "Lable title");
+    private final ILabel TITLE_LBL = getElementFactory().getLabel(
+            By.xpath("//h2[contains(@class,'help-form')]"), "Label title");
 
     public HelpForm() {
-        super(By.xpath("//a[contains(@class,'help')]"), "Link help");
+        super(By.xpath("//a[contains(@class,'help')]"), "Help form");
     }
 
-    public void btnSendToBottomClick() {
-        this.btnSendToBottom.click();
+    public void sendToBottomBtnClick() {
+        SEND_TO_BOTTOM_BTN.click();
     }
 
     public boolean isLblTitleOnScreen() {
-        return new JsActions(this.lblTitle, ElementType.LABEL.name()).isElementOnScreen();
+        return TITLE_LBL.state().isDisplayed();
     }
 }

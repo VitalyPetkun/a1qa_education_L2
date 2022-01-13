@@ -5,19 +5,33 @@ import org.testng.annotations.Test;
 import steps.WelcomePageSteps;
 import steps.RegistrationPageSteps;
 import utils.ConfigManager;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
-public class TimerTest extends BaseTest{
+public class TimerTest extends BaseTest {
+
+    private GregorianCalendar start;
+    private GregorianCalendar finish;
+
+    private double durationInSeconds;
 
     @Test
     public void checkTimer() {
-        logger.info("Navigate to welcome page");
+        LOGGER.info("Navigate to welcome page");
         AqualityServices.getBrowser().goTo(ConfigManager.getTestDataString("welcomePageURL"));
         WelcomePageSteps.assertIsWelcomePageOpen();
 
-        logger.info("Click link for navigate to login form");
-        WelcomePageSteps.linkNextPageClick();
+        LOGGER.info("Click link for navigate to login form");
+        WelcomePageSteps.nextPageLnkClick();
+        start = new GregorianCalendar();
         RegistrationPageSteps.assertIsRegistrationPageOpen();
+        finish = new GregorianCalendar();
 
-        RegistrationPageSteps.assertIsTimerStartFromZero();
+        LOGGER.info("Get start time");
+        durationInSeconds = (finish.getTimeInMillis() - start.getTimeInMillis()) *
+                ConfigManager.getTestDataDouble("convertingTimeValue");
+        RegistrationPageSteps.assertIsTimerStartFromZero(
+                new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(durationInSeconds));
     }
 }

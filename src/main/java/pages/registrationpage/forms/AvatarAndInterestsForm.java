@@ -6,52 +6,60 @@ import aquality.selenium.elements.interfaces.ICheckBox;
 import aquality.selenium.elements.interfaces.ILabel;
 import aquality.selenium.forms.Form;
 import org.openqa.selenium.By;
-import java.util.List;
+import java.util.*;
 
 public class AvatarAndInterestsForm extends Form {
 
-    private final IButton btnUnloadAvatar = this.getElementFactory().getButton(
-            By.xpath("//a[@class='avatar-and-interests__upload-button']"),"Button 'unload'");
-    private final IButton btnNext = this.getElementFactory().getButton(
-            By.xpath("//div[@class='align__cell']//button[contains(@class,'button--stroked')]"),"Button 'Next'");
+    private final IButton UNLOAD_AVATAR_BTN = getElementFactory().getButton(
+            By.xpath("//a[@class='avatar-and-interests__upload-button']"), "Button 'unload'");
+    private final IButton NEXT_BTN = getElementFactory().getButton(
+            By.xpath("//div[@class='align__cell']//button[contains(@class,'button--stroked')]"), "Button 'Next'");
 
-    private List<ICheckBox> getCheckBoxesInterestsList() {
-        return this.getElementFactory().findElements(
+    private List<ICheckBox> getInterestsList() {
+        return getElementFactory().findElements(
                 By.xpath("//div[@class='avatar-and-interests__interests-list__item']//span[@class='checkbox__box']"),
                 ElementType.CHECKBOX);
     }
 
-    private List<ILabel> getCheckBoxesTextInterestsList() {
-        return this.getElementFactory().findElements(
+    private List<ILabel> getInterestsTxtList() {
+        return getElementFactory().findElements(
                 By.xpath("//div[@class='avatar-and-interests__interests-list__item']//span[not(contains(@class,'checkbox'))]"),
                 ElementType.LABEL);
     }
 
+    private Map<String, ICheckBox> interestsChk = new HashMap();
+
     public AvatarAndInterestsForm() {
-        super(By.xpath("//div[@class='avatar-and-interests']"),"Avatar and interests form");
+        super(By.xpath("//div[@class='avatar-and-interests']"), "Avatar and interests form");
     }
 
-    public boolean isCheckBoxInterestsChecked(int index) {
-        return this.getCheckBoxesInterestsList().get(index).isChecked();
+    private void initializationMap() {
+        for (int i = 0; i <= getInterestsTxtList().size() - 1; ++i)
+            interestsChk.put(getInterestsTxtList().get(i).getText(), getInterestsList().get(i));
     }
 
-    public int getListCheckBoxInterestsSize() {
-        return this.getCheckBoxesInterestsList().size();
+    public boolean isInterestsChkChecked(String nameChk) {
+        this.initializationMap();
+        return interestsChk.get(nameChk).isChecked();
     }
 
-    public String getCheckBoxTextInterestsName(int index) {
-        return this.getCheckBoxesTextInterestsList().get(index).getText();
+    public void interestsChkCheck(String nameChk) {
+        interestsChk.get(nameChk).check();
     }
 
-    public void checkBoxInterestsCheck(int index) {
-        this.getCheckBoxesInterestsList().get(index).check();
+    public int getChkSize() {
+        return interestsChk.keySet().size();
     }
 
-    public void btnUnloadAvatarClick() {
-        btnUnloadAvatar.click();
+    public Set<String> getChkName() {
+        return interestsChk.keySet();
     }
 
-    public void btnNextClick() {
-        btnNext.click();
+    public void unloadAvatarBtnClick() {
+        UNLOAD_AVATAR_BTN.click();
+    }
+
+    public void nextBtnClick() {
+        NEXT_BTN.click();
     }
 }

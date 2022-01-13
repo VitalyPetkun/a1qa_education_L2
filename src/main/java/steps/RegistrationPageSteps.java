@@ -4,156 +4,178 @@ import aquality.selenium.browser.AqualityServices;
 import org.testng.Assert;
 import pages.registrationpage.RegistrationPage;
 import pages.registrationpage.forms.*;
+import utils.ConfigManager;
 import utils.CooperationWithDialogWindow;
+
+import java.util.Iterator;
+import java.util.Set;
 
 public class RegistrationPageSteps {
 
-    private static final RegistrationPage registrationPage = new RegistrationPage();
-    private static final LoginForm loginForm = new LoginForm();
-    private static final AvatarAndInterestsForm avatarAndInterestsForm = new AvatarAndInterestsForm();
-    private static final PersonalDetailsForm personalDetailsForm = new PersonalDetailsForm();
-    private static final CookieForm cookieForm = new CookieForm();
-    private static final HelpForm helpForm = new HelpForm();
+    private static final RegistrationPage REGISTRATION_PAGE = new RegistrationPage();
+    private static final LoginForm LOGIN_FORM = new LoginForm();
+    private static final AvatarAndInterestsForm AVATAR_AND_INTERESTS_FORM = new AvatarAndInterestsForm();
+    private static final PersonalDetailsForm PERSONAL_DETAILS_FORM = new PersonalDetailsForm();
+    private static final CookieForm COOKIE_FORM = new CookieForm();
+    private static final HelpForm HELP_FORM = new HelpForm();
 
-    private static void passwordScrollIntoView() {
-        loginForm.passwordScrollIntoView();
+    private static String getRandomPassword() {
+        String email = ConfigManager.getTestDataString("email");
+        char[] emailToArray = email.toCharArray();
+        String password = String.valueOf(emailToArray[(int) (Math.random() * (emailToArray.length))]);
+        password += String.valueOf(Character.toChars((int) (Math.random() * (91 - 65)) + 65));
+        password += String.valueOf(Character.toChars((int) (Math.random() * (58 - 48)) + 48));
+
+        for (int i = 0; i <= 8 + (int) (Math.random() * 10); i++) {
+            password += String.valueOf(Character.toChars((int) (Math.random() * (123 - 97)) + 97));
+        }
+
+        return password;
     }
 
-    public static void passwordInput() {
-        passwordScrollIntoView();
-        loginForm.passwordInput();
+    public static void passwordTxtInput() {
+        LOGIN_FORM.passwordTxtInput(getRandomPassword());
     }
 
-    public static void emailInput() {
-        loginForm.emailInput();
+    public static void emailTxtInput() {
+        LOGIN_FORM.emailTxtInput();
     }
 
-    public static void domainInput() {
-        loginForm.domainInput();
+    public static void domainTxtInput() {
+        LOGIN_FORM.domainTxtInput();
     }
 
-    private static void domainExtensionsClick() {
-        loginForm.domainExtensionsClick();
+    private static void domainExtensionsCmbClick() {
+        LOGIN_FORM.domainExtensionsCmbClick();
     }
 
     public static void domainExtensionsItemClick() {
-        domainExtensionsClick();
-        loginForm.domainExtensionsItemClick();
+        domainExtensionsCmbClick();
+        LOGIN_FORM.itemDomainExtensionsCmbClick();
     }
 
-    private static boolean isTermsAndConditionsChecked() {
-        return loginForm.isTermsAndConditionsChecked();
+    private static boolean isTermsAndConditionsChkChecked() {
+        return LOGIN_FORM.isTermsAndConditionsChkChecked();
     }
 
-    public static void termsAndConditionsCheck() {
-        if(!isTermsAndConditionsChecked())
-            loginForm.termsAndConditionsCheck();
+    public static void termsAndConditionsChkCheck() {
+        if (!isTermsAndConditionsChkChecked())
+            LOGIN_FORM.termsAndConditionsChkCheck();
     }
 
-    public static void loginFormBtnNextClick() {
-        loginForm.btnNextClick();
+    public static void loginFormNextBtnClick() {
+        LOGIN_FORM.nextBtnClick();
     }
 
-    private static boolean isCheckBoxInterestsChecked(int index) {
-        return avatarAndInterestsForm.isCheckBoxInterestsChecked(index);
+    private static boolean isInterestsChkChecked(String nameChk) {
+        return AVATAR_AND_INTERESTS_FORM.isInterestsChkChecked(nameChk);
     }
 
-    private static int getListCheckBoxInterestsSize() {
-        return avatarAndInterestsForm.getListCheckBoxInterestsSize();
+    private static int getChkSize() {
+        return AVATAR_AND_INTERESTS_FORM.getChkSize();
     }
 
-    private static String getCheckBoxTextInterestsName(int index) {
-        return avatarAndInterestsForm.getCheckBoxTextInterestsName(index);
+    private static Set<String> getChkNames() {
+        return AVATAR_AND_INTERESTS_FORM.getChkName();
     }
 
-    private static void checkBoxInterestsCheck(int index) {
-        avatarAndInterestsForm.checkBoxInterestsCheck(index);
+    private static void interestsChkCheck(String nameChk) {
+        AVATAR_AND_INTERESTS_FORM.interestsChkCheck(nameChk);
     }
 
     public static void threeRandomInterestsSelect() {
         int rand;
+        int flag;
+        int interestsSelect = 0;
+        String nameChk;
+        Iterator<String> chkIterator;
 
-        for(int index = 0; index <= getListCheckBoxInterestsSize()-1; index++) {
-            if (getCheckBoxTextInterestsName(index).equals("Unselect all") &&
-                    !isCheckBoxInterestsChecked(index)){
-                checkBoxInterestsCheck(index);
-            }
-        }
+        if (!isInterestsChkChecked("Unselect all"))
+            interestsChkCheck("Unselect all");
 
-        for(int i = 0; i < 3; i++) {
-            while (true){
-                rand = (int)(Math.random() * getListCheckBoxInterestsSize());
-                if(!getCheckBoxTextInterestsName(rand).equals("Select all") &&
-                        !getCheckBoxTextInterestsName(rand).equals("Unselect all")) {
-                    checkBoxInterestsCheck(rand);
-                    break;
+        while (interestsSelect != 3) {
+            chkIterator = getChkNames().iterator();
+            rand = (int) (Math.random() * getChkSize());
+            flag = 0;
+
+            while (chkIterator.hasNext()) {
+                nameChk = chkIterator.next();
+
+                if (flag == rand) {
+                    if (!nameChk.equals("Select all") && !nameChk.equals("Unselect all")) {
+                        interestsChkCheck(nameChk);
+                        ++interestsSelect;
+                        break;
+                    }
                 }
+
+                ++flag;
             }
         }
     }
 
-    private static void btnUnloadAvatarClick() {
-        avatarAndInterestsForm.btnUnloadAvatarClick();
+    private static void unloadAvatarBtnClick() {
+        AVATAR_AND_INTERESTS_FORM.unloadAvatarBtnClick();
     }
 
     public static void uploadAvatarIcon() {
-        btnUnloadAvatarClick();
+        unloadAvatarBtnClick();
         CooperationWithDialogWindow.openFileDialogWindow("pathAvatarIcon", "nameAvatarIcon");
     }
 
-    public static void avatarAndInterestsFormBtnNextClick() {
-        avatarAndInterestsForm.btnNextClick();
+    public static void avatarAndInterestsFormNextBtnClick() {
+        AVATAR_AND_INTERESTS_FORM.nextBtnClick();
     }
 
-    public static void btnNotReallyNoClick() {
-        cookieForm.btnNotReallyNoClick();
+    public static void notReallyNoBtnClick() {
+        COOKIE_FORM.notReallyNoBtnClick();
     }
 
-    public static void btnSendToBottomClick() {
-        helpForm.btnSendToBottomClick();
+    public static void sendToBottomBtnClick() {
+        HELP_FORM.sendToBottomBtnClick();
     }
 
     public static void waitForHelpFormHidden() {
-        AqualityServices.getConditionalWait().waitFor(condition -> (!helpForm.isLblTitleOnScreen()));
+        AqualityServices.getConditionalWait().waitFor(condition -> (!HELP_FORM.isLblTitleOnScreen()));
     }
 
-    private static String getLabelTimerText() {
-        return registrationPage.getLabelTimerText();
+    private static String getTimerLblText() {
+        return REGISTRATION_PAGE.geTimerLblText();
     }
 
-    public static void assertIsTimerStartFromZero() {
-        Assert.assertEquals(getLabelTimerText(),"00:00:00", "Timer doesn't start from zero.");
+    public static void assertIsTimerStartFromZero(String durationInSeconds) {
+        Assert.assertEquals(getTimerLblText(), "00:00:00", "Timer doesn't start from zero.");
     }
 
     public static void assertIsRegistrationPageOpen() {
-        Assert.assertTrue(registrationPage.isDisplayed(),"Registration page isn't open.");
+        Assert.assertTrue(REGISTRATION_PAGE.isDisplayed(), "Registration page isn't open.");
     }
 
     public static void assertIsLoginFormOpen() {
-        Assert.assertTrue(loginForm.isDisplayed(),"Login form isn't open.");
+        Assert.assertTrue(LOGIN_FORM.isDisplayed(), "Login form isn't open.");
     }
 
     public static void assertIsAvatarAndInterestsFormOpen() {
-        Assert.assertTrue(avatarAndInterestsForm.isDisplayed(),"Avatar and interests form isn't open.");
+        Assert.assertTrue(AVATAR_AND_INTERESTS_FORM.isDisplayed(), "Avatar and interests form isn't open.");
     }
 
     public static void assertIsPersonalDetailsFormOpen() {
-        Assert.assertTrue(personalDetailsForm.isDisplayed(),"Personal details form isn't open.");
+        Assert.assertTrue(PERSONAL_DETAILS_FORM.isDisplayed(), "Personal details form isn't open.");
     }
 
     public static void assertIsCookieFormOpen() {
-        Assert.assertTrue(cookieForm.isDisplayed(),"Cookie form isn't open.");
+        Assert.assertTrue(COOKIE_FORM.isDisplayed(), "Cookie form isn't open.");
     }
 
     public static void assertIsCookieFormHidden() {
-        Assert.assertFalse(cookieForm.isDisplayed(),"Cookie form isn't hidden.");
+        Assert.assertFalse(COOKIE_FORM.isDisplayed(), "Cookie form isn't hidden.");
     }
 
     public static void assertIsHelpFormOpen() {
-        Assert.assertTrue(helpForm.isDisplayed(),"Help form isn't open.");
+        Assert.assertTrue(HELP_FORM.isDisplayed(), "Help form isn't open.");
     }
 
     public static void assertIsHelpFormHidden() {
-        Assert.assertFalse(helpForm.isDisplayed(),"Help form isn't hidden.");
+        Assert.assertFalse(HELP_FORM.isDisplayed(), "Help form isn't hidden.");
     }
 }

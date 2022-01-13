@@ -6,19 +6,20 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
-    protected final Logger logger = Logger.getInstance();
+
+    protected final Logger LOGGER = Logger.getInstance();
 
     @BeforeMethod
     protected void setup() {
-        logger.info("Set window size maximize");
+        LOGGER.info("Set window size maximize");
         AqualityServices.getBrowser().getDriver().manage().window().maximize();
-        logger.info("Timeout load browser");
+        LOGGER.info("Timeout load browser");
         AqualityServices.getBrowser().getDriver().manage().timeouts();
     }
 
     @AfterMethod
     protected void quitDriver() {
-        logger.info("Quit browser");
+        LOGGER.info("Quit browser");
         AqualityServices.getBrowser().getDriver().quit();
     }
 }
