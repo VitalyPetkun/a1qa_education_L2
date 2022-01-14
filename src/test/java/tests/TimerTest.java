@@ -6,15 +6,13 @@ import steps.WelcomePageSteps;
 import steps.RegistrationPageSteps;
 import utils.ConfigManager;
 import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.TimeZone;
 
 public class TimerTest extends BaseTest {
 
-    private GregorianCalendar start;
-    private GregorianCalendar finish;
-
-    private double durationInSeconds;
+    private long start;
+    private long finish;
+    private long durationInMillisecond;
 
     @Test
     public void checkTimer() {
@@ -24,14 +22,14 @@ public class TimerTest extends BaseTest {
 
         LOGGER.info("Click link for navigate to login form");
         WelcomePageSteps.nextPageLnkClick();
-        start = new GregorianCalendar();
+        start = System.nanoTime();
         RegistrationPageSteps.assertIsRegistrationPageOpen();
-        finish = new GregorianCalendar();
+        finish = System.nanoTime();
 
         LOGGER.info("Get start time");
-        durationInSeconds = (finish.getTimeInMillis() - start.getTimeInMillis()) *
-                ConfigManager.getTestDataDouble("convertingTimeValue");
+        durationInMillisecond = (finish - start) / ConfigManager.getTestDataLong("nanosecondToMillisecondConverter");
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         RegistrationPageSteps.assertIsTimerStartFromZero(
-                new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(durationInSeconds));
+                new SimpleDateFormat("HH:mm:ss").format(durationInMillisecond));
     }
 }

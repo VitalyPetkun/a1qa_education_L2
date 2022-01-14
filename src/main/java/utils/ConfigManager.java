@@ -28,7 +28,7 @@ public class ConfigManager {
         return testDataProperties.getProperty(key);
     }
 
-    public static double getTestDataDouble(String key) { return Double.parseDouble(testDataProperties.getProperty(key));}
+    public static long getTestDataLong(String key) { return Long.parseLong(testDataProperties.getProperty(key));}
 
     public static int getConfigInt(String key) {
         return Integer.parseInt(configProperties.getProperty(key));

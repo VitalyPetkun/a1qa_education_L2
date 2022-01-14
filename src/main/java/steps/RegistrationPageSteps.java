@@ -6,7 +6,6 @@ import pages.registrationpage.RegistrationPage;
 import pages.registrationpage.forms.*;
 import utils.ConfigManager;
 import utils.CooperationWithDialogWindow;
-
 import java.util.Iterator;
 import java.util.Set;
 
@@ -143,8 +142,8 @@ public class RegistrationPageSteps {
         return REGISTRATION_PAGE.geTimerLblText();
     }
 
-    public static void assertIsTimerStartFromZero(String durationInSeconds) {
-        Assert.assertEquals(getTimerLblText(), "00:00:00", "Timer doesn't start from zero.");
+    public static void assertIsTimerStartFromZero(String time) {
+        Assert.assertEquals(getTimerLblText(), time, "Timer doesn't start from zero.");
     }
 
     public static void assertIsRegistrationPageOpen() {
