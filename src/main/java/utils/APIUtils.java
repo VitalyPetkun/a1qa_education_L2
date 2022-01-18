@@ -1,43 +1,37 @@
 package utils;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import com.google.gson.Gson;
+import io.restassured.response.Response;
+import model.Post;
+import static io.restassured.RestAssured.*;
 
 public class APIUtils {
 
-    private static final String URL = ConfigManager.getTestDataString("postsURL");
+    private static final String BASE_URL = ConfigManager.getTestDataString("baseURL");
 
-    public static void main(String[] args) {
-        requestGet();
+    private static final Gson GSON = new Gson();
+
+    private static Response response;
+
+    private static void setupBaseUri() {
+        baseURI = BASE_URL;
     }
 
-    private static void requestGet() {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL)).build();
-
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(APIUtils::parse)
-                .join();
+    public static void requestGet(String request) {
+        setupBaseUri();
+        response = get(request);
     }
 
-    private static String parse(String responseBody) {
-        JSONArray users = new JSONArray(responseBody);
+    public static int getStatusCode() {
+        return response.getStatusCode();
+    }
 
-        for (int i = 0; i < users.length(); i++) {
-            JSONObject user = users.getJSONObject(i);
-            int id = user.getInt("id");
-            int userId = user.getInt("userId");
-            String title = user.getString("title");
-            String body = user.getString("body");
+    public static String getBodyFromJson() {
+        return GSON.toJson(response.getBody().asString());
+    }
 
-            System.out.println(id + " " + title + " " + userId + " " + body);
-        }
-
-        return null;
+    public static Object getValue(String key) {
+        Post post = GSON.fromJson(response.getBody().asString(), Post.class);
+        return post.getValue(key);
     }
 }
