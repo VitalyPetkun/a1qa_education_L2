@@ -5,11 +5,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import io.restassured.response.Response;
-import model.Post;
+import model.PostModelForResponse;
 import model.Posts;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
 import static io.restassured.RestAssured.*;
 
 public class APIUtils {
@@ -28,14 +27,14 @@ public class APIUtils {
         response = get(request);
     }
 
+    public static void postRequest(String request, String body) {
+        MyLogger.logInfo("Post request");
+        response = given().body(body).when().post(request);
+    }
+
     public static int getStatusCode() {
         MyLogger.logInfo("Get status code");
         return response.getStatusCode();
-    }
-
-    public static JsonObject getBodyFromJsonObject() {
-        MyLogger.logInfo("Response body converting in JSON Object");
-        return GSON.fromJson(response.getBody().asString(), JsonObject.class);
     }
 
     public static boolean isBodyJsonArrayFormat() {
@@ -43,11 +42,17 @@ public class APIUtils {
         return JsonArray.class.equals(GSON.fromJson(response.getBody().asString(), JsonArray.class).getClass());
     }
 
+    public static JsonObject getBodyFromJsonObject() {
+        MyLogger.logInfo("Response body converting in JSON Object");
+        return GSON.fromJson(response.getBody().asString(), JsonObject.class);
+    }
+
     public static boolean isAscendingIdOrder() {
         MyLogger.logInfo("Checking response body for ascending id order");
 
         Posts posts = new Posts();
-        Type postsListType = new TypeToken<ArrayList<Post>>() {}.getType();
+        Type postsListType = new TypeToken<ArrayList<PostModelForResponse>>() {
+        }.getType();
         posts.setPosts(GSON.fromJson(response.getBody().asString(), postsListType));
 
         for (int i = 0; i < posts.getPosts().size(); i++) {
@@ -64,7 +69,12 @@ public class APIUtils {
 
     public static Object getValue(String key) {
         MyLogger.logInfo("Get response body value by key = '" + key + "'");
-        Post post = GSON.fromJson(response.getBody().asString(), Post.class);
+        PostModelForResponse post = GSON.fromJson(response.getBody().asString(), PostModelForResponse.class);
         return post.getValue(key);
+    }
+
+    public static String setBodyToJson(Object object) {
+        MyLogger.logInfo("Response body converting in String value");
+        return new Gson().toJson(object);
     }
 }

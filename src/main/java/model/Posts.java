@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Posts {
 
-    private List<Post> posts;
+    private List<PostModelForResponse> posts;
 
-    public List<Post> getPosts() {
+    public List<PostModelForResponse> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(List<PostModelForResponse> posts) {
         this.posts = posts;
     }
 }

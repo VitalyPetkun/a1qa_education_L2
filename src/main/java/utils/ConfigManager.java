@@ -6,17 +6,12 @@ import java.util.Properties;
 
 public class ConfigManager {
 
-    private static final String CONFIG_PATH = "src/main/resources/config.properties";
     private static final String TEST_DATA_PATH = "src/test/resources/testData.properties";
 
-    private static Properties configProperties;
     private static Properties testDataProperties;
 
     static {
-        try (FileInputStream fileConfigInputStream = new FileInputStream(CONFIG_PATH);
-             FileInputStream fileTestDataInputStream = new FileInputStream(TEST_DATA_PATH)) {
-            configProperties = new Properties();
-            configProperties.load(fileConfigInputStream);
+        try (FileInputStream fileTestDataInputStream = new FileInputStream(TEST_DATA_PATH)) {
             testDataProperties = new Properties();
             testDataProperties.load(fileTestDataInputStream);
         } catch (IOException e) {
@@ -29,7 +24,7 @@ public class ConfigManager {
         return testDataProperties.getProperty(key);
     }
 
-    public static String getConfigString(String key) {
-        return configProperties.getProperty(key);
+    public static int getTestDataInt(String key) {
+        return Integer.parseInt(testDataProperties.getProperty(key));
     }
 }
