@@ -1,9 +1,9 @@
 package tests;
 
+import com.google.gson.Gson;
 import org.testng.annotations.BeforeMethod;
 import utils.APIUtils;
 import utils.ConfigManager;
-import utils.MyLogger;
 
 public class BaseTest {
 
@@ -11,7 +11,6 @@ public class BaseTest {
 
     @BeforeMethod
     public void setupBaseUri() {
-        MyLogger.logInfo("Start tests");
         APIUtils.setupBaseUri(BASE_URI);
     }
 }

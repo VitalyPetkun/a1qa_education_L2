@@ -5,8 +5,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import io.restassured.response.Response;
-import model.PostModelForResponse;
-import model.Posts;
+import models.PostModelForResponse;
+import models.Posts;
+import models.User;
+import models.Users;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import static io.restassured.RestAssured.*;
@@ -51,8 +54,7 @@ public class APIUtils {
         MyLogger.logInfo("Checking response body for ascending id order");
 
         Posts posts = new Posts();
-        Type postsListType = new TypeToken<ArrayList<PostModelForResponse>>() {
-        }.getType();
+        Type postsListType = new TypeToken<ArrayList<PostModelForResponse>>() {}.getType();
         posts.setPosts(GSON.fromJson(response.getBody().asString(), postsListType));
 
         for (int i = 0; i < posts.getPosts().size(); i++) {
@@ -67,7 +69,7 @@ public class APIUtils {
         return false;
     }
 
-    public static Object getValue(String key) {
+    public static Object getObjectValue(String key) {
         MyLogger.logInfo("Get response body value by key = '" + key + "'");
         PostModelForResponse post = GSON.fromJson(response.getBody().asString(), PostModelForResponse.class);
         return post.getValue(key);
@@ -76,5 +78,20 @@ public class APIUtils {
     public static String setBodyToJson(Object object) {
         MyLogger.logInfo("Response body converting in String value");
         return new Gson().toJson(object);
+    }
+
+    public static User getUserFromArrayById(int id) {
+        MyLogger.logInfo("Get object from array by id");
+        Users users = new Users();
+
+        Type usersListType = new TypeToken<ArrayList<User>>() {}.getType();
+        users.setUsers(GSON.fromJson(response.getBody().asString(), usersListType));
+
+        return users.getUserById(id);
+    }
+
+    public static User getUserFromResponseBody() {
+        MyLogger.logInfo("Get object from response body");
+        return GSON.fromJson(response.getBody().asString(), User.class);
     }
 }
