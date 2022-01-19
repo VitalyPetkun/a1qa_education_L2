@@ -20,6 +20,7 @@ public class ConfigManager {
             testDataProperties = new Properties();
             testDataProperties.load(fileTestDataInputStream);
         } catch (IOException e) {
+            MyLogger.logError("Error - don't reading config file");
             e.printStackTrace();
         }
     }

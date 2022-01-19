@@ -1,24 +1,28 @@
 package tests;
 
+import com.google.gson.JsonObject;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.APIUtils;
+import utils.MyLogger;
 
-public class RequestGetTest {
+public class RequestGetTest extends BaseTest{
 
     @Test
-    public void getAllPosts() {
-
-        APIUtils.requestGet("/posts");
+    public void getPosts() {
+        MyLogger.logInfo("Start test for get posts");
+        APIUtils.getRequest("/posts");
         Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_OK, "Wrong status code returned");
-        Assert.assertEquals(APIUtils.getBodyFromJson(), String.class, "List of posts returned not in JSON format");
+        Assert.assertTrue(APIUtils.isBodyJsonArrayFormat(),"List of posts returned not in JSON format");
+        Assert.assertTrue(APIUtils.isAscendingIdOrder(), "List is not sorted by ID ascending");
+
     }
 
     @Test
-    public void get_99_Post() {
-
-        APIUtils.requestGet("/posts/99");
+    public void getOnePost() {
+        MyLogger.logInfo("Start test for get one post");
+        APIUtils.getRequest("/posts/99");
         Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_OK, "Wrong status code returned");
         Assert.assertEquals(APIUtils.getValue("userId"), 10, "UserId isn't '10'");
         Assert.assertEquals(APIUtils.getValue("id"), 99, "Id isn't '99'");
@@ -28,9 +32,9 @@ public class RequestGetTest {
 
     @Test
     public void getWrongPost() {
-
-        APIUtils.requestGet("/posts/150");
+        MyLogger.logInfo("Start test for get wrong post");
+        APIUtils.getRequest("/posts/150");
         Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_NOT_FOUND, "Wrong status code returned");
-        Assert.assertEquals(APIUtils.getBodyFromJson(), "\"{}\"", "Response body isn't empty");
+        Assert.assertEquals(APIUtils.getBodyFromJsonObject(), new JsonObject(), "Response body isn't empty");
     }
 }
