@@ -1,4 +1,4 @@
-package models;
+package models.user;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ public class Users {
     }
 
     public User getUserById(int id) {
-        for(User user: getUsers()){
-            if(user.getId() == id)
+        for (User user : getUsers()) {
+            if (user.getId() == id)
                 return user;
         }
 

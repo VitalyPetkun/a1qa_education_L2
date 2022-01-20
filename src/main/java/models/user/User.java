@@ -1,4 +1,4 @@
-package models;
+package models.user;
 
 public class User {
 
@@ -14,69 +14,6 @@ public class User {
     private String website;
 
     private Company company;
-
-    public class Address {
-
-        private String street;
-        private String suite;
-        private String city;
-        private String zipcode;
-
-        private Geo geo;
-
-        public class Geo {
-
-            private String lat;
-            private String lng;
-
-            public String getLat() {
-                return lat;
-            }
-
-            public String getLng() {
-                return lng;
-            }
-        }
-
-        public String getStreet() {
-            return street;
-        }
-
-        public String getSuite() {
-            return suite;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public String getZipcode() {
-            return zipcode;
-        }
-
-        public Geo getGeo() {
-            return geo;
-        }
-    }
-
-    public class Company {
-
-        private String name;
-        private String catchPhrase;
-        private String bs;
-
-        public String getName() {
-            return name;
-        }
-
-        public String getCatchPhrase() {
-            return catchPhrase;
-        }
-
-        public String getBs() {
-            return bs;
-        }
-    }
 
     public int getId() {
         return id;
@@ -108,5 +45,68 @@ public class User {
 
     public Company getCompany() {
         return company;
+    }
+
+    public class Address {
+
+        private String street;
+        private String suite;
+        private String city;
+        private String zipcode;
+
+        private Geo geo;
+
+        public String getStreet() {
+            return street;
+        }
+
+        public String getSuite() {
+            return suite;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getZipcode() {
+            return zipcode;
+        }
+
+        public Geo getGeo() {
+            return geo;
+        }
+
+        public class Geo {
+
+            private String lat;
+            private String lng;
+
+            public String getLat() {
+                return lat;
+            }
+
+            public String getLng() {
+                return lng;
+            }
+        }
+    }
+
+    public class Company {
+
+        private String name;
+        private String catchPhrase;
+        private String bs;
+
+        public String getName() {
+            return name;
+        }
+
+        public String getCatchPhrase() {
+            return catchPhrase;
+        }
+
+        public String getBs() {
+            return bs;
+        }
     }
 }

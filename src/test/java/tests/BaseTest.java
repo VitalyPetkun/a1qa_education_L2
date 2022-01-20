@@ -1,6 +1,5 @@
 package tests;
 
-import com.google.gson.Gson;
 import org.testng.annotations.BeforeMethod;
 import utils.APIUtils;
 import utils.ConfigManager;

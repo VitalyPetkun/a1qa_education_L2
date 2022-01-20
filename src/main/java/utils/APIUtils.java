@@ -4,14 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import models.PostModelForResponse;
-import models.Posts;
-import models.User;
-import models.Users;
-
+import models.post.PostModelForResponse;
+import models.post.Posts;
+import models.user.User;
+import models.user.Users;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
 import static io.restassured.RestAssured.*;
 
 public class APIUtils {
@@ -32,7 +33,13 @@ public class APIUtils {
 
     public static void postRequest(String request, String body) {
         MyLogger.logInfo("Post request");
-        response = given().body(body).when().post(request);
+        response = given().
+                header("Content-Type", "application/json").
+                contentType(ContentType.JSON).
+                accept(ContentType.JSON).
+                body(body).
+                when().
+                post(request);
     }
 
     public static int getStatusCode() {
@@ -54,7 +61,8 @@ public class APIUtils {
         MyLogger.logInfo("Checking response body for ascending id order");
 
         Posts posts = new Posts();
-        Type postsListType = new TypeToken<ArrayList<PostModelForResponse>>() {}.getType();
+        Type postsListType = new TypeToken<ArrayList<PostModelForResponse>>() {
+        }.getType();
         posts.setPosts(GSON.fromJson(response.getBody().asString(), postsListType));
 
         for (int i = 0; i < posts.getPosts().size(); i++) {
@@ -69,12 +77,6 @@ public class APIUtils {
         return false;
     }
 
-    public static Object getObjectValue(String key) {
-        MyLogger.logInfo("Get response body value by key = '" + key + "'");
-        PostModelForResponse post = GSON.fromJson(response.getBody().asString(), PostModelForResponse.class);
-        return post.getValue(key);
-    }
-
     public static String setBodyToJson(Object object) {
         MyLogger.logInfo("Response body converting in String value");
         return new Gson().toJson(object);
@@ -84,14 +86,15 @@ public class APIUtils {
         MyLogger.logInfo("Get object from array by id");
         Users users = new Users();
 
-        Type usersListType = new TypeToken<ArrayList<User>>() {}.getType();
+        Type usersListType = new TypeToken<ArrayList<User>>() {
+        }.getType();
         users.setUsers(GSON.fromJson(response.getBody().asString(), usersListType));
 
         return users.getUserById(id);
     }
 
-    public static User getUserFromResponseBody() {
+    public static Object getObjectFromResponseBody(Type type) {
         MyLogger.logInfo("Get object from response body");
-        return GSON.fromJson(response.getBody().asString(), User.class);
+        return GSON.fromJson(response.getBody().asString(), type);
     }
 }

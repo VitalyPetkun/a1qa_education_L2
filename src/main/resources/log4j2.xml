@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="debug" strict="true"
                name="XMLConfigTest" packages="org.apache.logging.log4j.test">
-    <Filter type="ThresholdFilter" level="trace" />
+    <Filter type="ThresholdFilter" level="trace"/>
 
     <Appenders>
         <Console name="STDOUT">
-            <Layout type="PatternLayout" pattern="%m %n" />
+            <Layout type="PatternLayout" pattern="%m %n"/>
         </Console>
         <RollingFile name="rollingFile"
                      fileName="logs/log4j2.log"
@@ -15,7 +15,7 @@
                 <Pattern>%d %p [%t] %m%n</Pattern>
             </PatternLayout>
             <Policies>
-                <OnStartupTriggeringPolicy />
+                <OnStartupTriggeringPolicy/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
@@ -23,8 +23,8 @@
 
     <Loggers>
         <Root level="INFO">
-            <AppenderRef ref="STDOUT" />
-            <AppenderRef ref="rollingFile" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="rollingFile"/>
         </Root>
     </Loggers>
 

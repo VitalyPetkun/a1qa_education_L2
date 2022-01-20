@@ -1,15 +1,11 @@
-package models;
+package models.post;
 
 public class PostModelForRequest {
-
-    private int userId;
 
     private String title;
     private String body;
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    private int userId;
 
     public void setTitle(String title) {
         this.title = title;
@@ -23,7 +19,7 @@ public class PostModelForRequest {
         String newTitle = null;
 
         for (int i = 0; i <= 10 + (int) (Math.random() * 100); i++) {
-            newTitle += String.valueOf(Character.toChars((int) (Math.random() * (123 - 97)) + 97));
+            newTitle += String.valueOf(Character.toChars((int) (Math.random() * (127- 32)) + 32));
         }
 
         this.setTitle(newTitle);
@@ -35,11 +31,15 @@ public class PostModelForRequest {
         String newBody = null;
 
         for (int i = 0; i <= 10 + (int) (Math.random() * 100); i++) {
-            newBody += String.valueOf(Character.toChars((int) (Math.random() * (123 - 97)) + 97));
+            newBody += String.valueOf(Character.toChars((int) (Math.random() * (127 - 32)) + 32));
         }
 
         this.setBody(newBody);
 
         return newBody;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
