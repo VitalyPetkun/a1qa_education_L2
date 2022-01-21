@@ -1,15 +1,14 @@
 package tests;
 
 import org.testng.annotations.BeforeMethod;
-import utils.APIUtils;
-import utils.ConfigManager;
+import utils.API.APIUtils;
+
+import static services.URI.BASE_URI;
 
 public class BaseTest {
 
-    private static final String BASE_URI = ConfigManager.getTestDataString("baseURI");
-
     @BeforeMethod
     public void setupBaseUri() {
-        APIUtils.setupBaseUri(BASE_URI);
+        APIUtils.setupBaseUri(BASE_URI.getUri());
     }
 }

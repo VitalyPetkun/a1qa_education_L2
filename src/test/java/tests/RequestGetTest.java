@@ -1,41 +1,46 @@
 package tests;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import utils.API.APIUtils;
 import models.post.PostModelForResponse;
-import models.user.User;
+import models.User;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.*;
+import utils.API.Response;
+import static services.EndPointsJSONPlaceholder.*;
+import static services.PathToFiles.*;
 
 public class RequestGetTest extends BaseTest {
 
-    private Gson gson = new Gson();
-
     @Test(priority = 1)
     public void getPosts() {
-        MyLogger.logInfo("Start test for get posts");
-        APIUtils.getRequest(ConfigManager.getTestDataString("getRequestPosts"));
+        Logger.logStep("GET request for found all 'posts'");
+        APIUtils.doGet(POSTS.getPoint());
 
-        Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_OK, "Wrong status code returned");
-        Assert.assertTrue(APIUtils.isBodyJsonArrayFormat(), "List of posts returned not in JSON format");
-        Assert.assertTrue(APIUtils.isAscendingIdOrder(), "List is not sorted by ID ascending");
+        Assert.assertEquals(Response.getStatus(), HttpStatus.SC_OK, "Wrong status code returned");
+        Assert.assertTrue(JsonArray.class.equals(JsonConverter.convertToJson(Response.getBody(),JsonArray.class).getClass()),
+                "List of posts returned not in JSON format");
+        Assert.assertTrue(CheckingUserList.isAscendingUserIdOrder(JsonConverter.convertToPostList(Response.getBody())),
+                "List is not sorted by ID ascending");
     }
 
     @Test(priority = 2)
     public void getOnePost() {
-        MyLogger.logInfo("Start test for get one post");
-        APIUtils.getRequest(ConfigManager.getTestDataString("getRequestOnePost"));
+        Logger.logStep("GET request for found 'post' №99");
+        APIUtils.doGet(NINETIETH_POST.getPoint());
 
-        PostModelForResponse newPost = (PostModelForResponse) APIUtils.getObjectFromResponseBody(PostModelForResponse.class);
+        PostModelForResponse newPost = (PostModelForResponse) JsonConverter.
+                convertToJson(Response.getBody(),PostModelForResponse.class);
 
-        Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_OK, "Wrong status code returned");
-        Assert.assertEquals(newPost.getUserId(), ConfigManager.getTestDataInt("userIdForGetRequestOnePost"),
-                "Not correct post's userId"
+        Assert.assertEquals(Response.getStatus(), HttpStatus.SC_OK, "Wrong status code returned");
+        Assert.assertEquals(newPost.getUserId(), Integer.parseInt(ConfigManager.
+                        getTestDataValue("userIdForGetRequestOnePost")),"Not correct post's userId"
         );
-        Assert.assertEquals(newPost.getId(), ConfigManager.getTestDataInt("idForGetRequestOnePost"),
-                "Not correct post's id"
+        Assert.assertEquals(newPost.getId(), Integer.parseInt(ConfigManager.
+                        getTestDataValue("idForGetRequestOnePost")),"Not correct post's id"
         );
         Assert.assertNotNull(newPost.getTitle(), "Empty line");
         Assert.assertNotNull(newPost.getBody(), "Empty line");
@@ -43,28 +48,29 @@ public class RequestGetTest extends BaseTest {
 
     @Test(priority = 3)
     public void getWrongPost() {
-        MyLogger.logInfo("Start test for get wrong post");
-        APIUtils.getRequest(ConfigManager.getTestDataString("getRequestWrongPost"));
+        Logger.logStep("GET request for found 'posts' №150");
+        APIUtils.doGet(WRONG_POST.getPoint());
 
-        Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_NOT_FOUND, "Wrong status code returned");
-        Assert.assertEquals(APIUtils.getBodyFromJsonObject(), new JsonObject(), "Response body isn't empty");
+        Assert.assertEquals(Response.getStatus(), HttpStatus.SC_NOT_FOUND, "Wrong status code returned");
+        Assert.assertEquals(JsonConverter.convertToJson(Response.getBody(), JsonObject.class), new JsonObject(),
+                "Response body isn't empty");
     }
 
     @Test(priority = 4)
     public void getUsers() {
-        MyLogger.logInfo("Start test for get users");
+        Logger.logStep("GET request for found all users");
+        Logger.logInfo("Get local user data");
+        User fifthUser = (User) ConfigManager.readData(CURRENT_USER.getPath(), User.class);
 
-        MyLogger.logInfo("Get local user data");
-        User fifthUser = (User) ConfigManager.readData(ConfigManager.getTestDataString("currentUserPath"), User.class);
+        int id = Integer.parseInt(ConfigManager.getTestDataValue("userIdForGetRequestUsers"));
 
-        int id = ConfigManager.getTestDataInt("userIdForGetRequestUsers");
+        APIUtils.doGet(USERS.getPoint());
 
-        APIUtils.getRequest(ConfigManager.getTestDataString("getRequestUsers"));
+        User newUser = JsonConverter.convertToUserList(Response.getBody()).get(id-1);
 
-        User newUser = APIUtils.getUserFromArrayById(id);
-
-        Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_OK, "Wrong status code returned");
-        Assert.assertTrue(APIUtils.isBodyJsonArrayFormat(), "List of posts returned not in JSON format");
+        Assert.assertEquals(Response.getStatus(), HttpStatus.SC_OK, "Wrong status code returned");
+        Assert.assertTrue(JsonArray.class.equals(JsonConverter.convertToJson(Response.getBody(),JsonArray.class).getClass()),
+                "List of posts returned not in JSON format");
         Assert.assertEquals(newUser.getName(), fifthUser.getName(), "Not correct fifth user's name");
         Assert.assertEquals(newUser.getUsername(), fifthUser.getUsername(), "Not correct fifth user's username");
         Assert.assertEquals(newUser.getEmail(), fifthUser.getEmail(), "Not correct fifth user's email");
@@ -102,21 +108,22 @@ public class RequestGetTest extends BaseTest {
                 "Not correct fifth user's bs"
         );
 
-        ConfigManager.saveData(ConfigManager.getTestDataString("newUserPath"), gson.toJson(newUser));
+        ConfigManager.saveData(NEW_USER.getPath(), JsonConverter.convertFromJson(newUser));
     }
 
     @Test(priority = 5)
     public void getOneUser() {
-        MyLogger.logInfo("Start test for get users");
-        User fifthUser = (User) ConfigManager.readData(ConfigManager.getTestDataString("newUserPath"), User.class);
+        Logger.logStep("GET request for found fifth users");
+        User fifthUser = (User) ConfigManager.readData(NEW_USER.getPath(), User.class);
 
-        APIUtils.getRequest(ConfigManager.getTestDataString("getRequestOneUser"));
+        APIUtils.doGet(FIFTH_USER.getPoint());
 
-        Assert.assertEquals(APIUtils.getStatusCode(), HttpStatus.SC_OK, "Wrong status code returned");
-        Assert.assertEquals(gson.toJson(APIUtils.getObjectFromResponseBody(User.class)), gson.toJson(fifthUser),
-                "Not correct fifth user's name"
+        Assert.assertEquals(Response.getStatus(), HttpStatus.SC_OK, "Wrong status code returned");
+        Assert.assertEquals(JsonConverter.convertFromJson(JsonConverter.convertToJson(Response.getBody(), User.class)),
+                JsonConverter.convertFromJson(fifthUser),"Not correct fifth user's name"
         );
 
-        ConfigManager.deleteFile(ConfigManager.getTestDataString("newUserPath"));
+        ConfigManager.deleteFile(NEW_USER.getPath());
     }
 }
+
