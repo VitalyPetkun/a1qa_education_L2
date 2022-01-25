@@ -1,9 +1,10 @@
-package models;
+package models.user;
 
 import lombok.Getter;
+import models.BaseModel;
 
 @Getter
-public class User {
+public class User implements BaseModel {
 
     private int id;
     private String name;
@@ -13,4 +14,8 @@ public class User {
     private String phone;
     private String website;
     private Company company;
+
+    public int getId() {
+        return id;
+    }
 }

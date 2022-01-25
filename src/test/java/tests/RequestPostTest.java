@@ -5,42 +5,40 @@ import models.post.PostModelForResponse;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import utils.API.APIUtils;
-import utils.API.Response;
+import utils.api.APIUtils;
+import utils.api.Response;
 import utils.ConfigManager;
 import utils.GeneratingRandomString;
 import utils.JsonConverter;
-import utils.Logger;
+import utils.SmartLogger;
 import static services.EndPointsJSONPlaceholder.POSTS;
 
 public class RequestPostTest extends BaseTest {
 
+    private Response response;
+
     @Test
-    public void postMyPost() {
-        Logger.logStep("POST request for creating 'post'");
+    public void post() {
+        SmartLogger.logStep("STEP №4: POST request for creating 'post'");
+        SmartLogger.logInfo("Creat post");
+        PostModelForRequest expectedPost = new PostModelForRequest();
 
-        Logger.logInfo("Creat my post");
-        PostModelForRequest myPost = new PostModelForRequest();
+        expectedPost.setUserId(Integer.parseInt(ConfigManager.getTestDataValue("userIdForPostRequestPosts")));
+        expectedPost.setTitle(GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
+                getTestDataValue("titleLengthForGetRequestOnePost")))));
+        expectedPost.setBody(GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
+                getTestDataValue("bodyLengthForGetRequestOnePost")))));
 
-        myPost.setUserId(Integer.parseInt(ConfigManager.getTestDataValue("userIdForPostRequestPosts")));
-        myPost.setTitle(GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
-                getTestDataValue("randomTitleLengthForGetRequestOnePost")))));
-        myPost.setBody(GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
-                getTestDataValue("randomBodyLengthForGetRequestOnePost")))));
+        response = APIUtils.doPost(POSTS.getPoint(), JsonConverter.convertToString(expectedPost));
 
-        APIUtils.doPost(POSTS.getPoint(), JsonConverter.convertFromJson(myPost));
+        PostModelForResponse actualPost = (PostModelForResponse) JsonConverter.
+                convertToJson(response.getBody(), PostModelForResponse.class);
 
-        PostModelForResponse newPost = (PostModelForResponse) JsonConverter.
-                convertToJson(Response.getBody(),PostModelForResponse.class);
-
-        Assert.assertEquals(Response.getStatus(), HttpStatus.SC_CREATED, "Wrong status code returned");
-        Assert.assertEquals(newPost.getUserId(), Integer.parseInt(ConfigManager.
-                        getTestDataValue("userIdForPostRequestPosts")),"Not correct post's userId"
-        );
-        Assert.assertNotEquals(newPost.getId(), Integer.parseInt(ConfigManager.
-                        getTestDataValue("emptyIdForPostRequestPosts")),"Empty id"
-        );
-        Assert.assertEquals(newPost.getTitle(), myPost.getTitle(), "Not correct post's title");
-        Assert.assertEquals(newPost.getBody(), myPost.getBody(), "Not correct post's body");
+        Assert.assertEquals(response.getStatus(), HttpStatus.SC_CREATED, "Wrong status code returned");
+        Assert.assertEquals(actualPost.getUserId(), expectedPost.getUserId(), "Not correct post's userId");
+        Assert.assertEquals(actualPost.getTitle(), expectedPost.getTitle(), "Not correct post's title");
+        Assert.assertEquals(actualPost.getBody(), expectedPost.getBody(), "Not correct post's body");
+        Assert.assertNotEquals(actualPost.getId(), Integer.parseInt(ConfigManager.
+                getTestDataValue("emptyIdForPostRequestPosts")), "Empty id");
     }
 }

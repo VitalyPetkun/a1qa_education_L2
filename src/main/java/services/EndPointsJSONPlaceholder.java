@@ -3,10 +3,9 @@ package services;
 public enum EndPointsJSONPlaceholder {
 
     POSTS("/posts"),
-    NINETIETH_POST("/posts/99"),
-    WRONG_POST("/posts/150"),
+    POST("/posts/%s"),
     USERS("/users"),
-    FIFTH_USER("/users/5");
+    USER("/users/%s");
 
     private String point;
 
@@ -16,5 +15,9 @@ public enum EndPointsJSONPlaceholder {
 
     public String getPoint() {
         return point;
+    }
+
+    public String getChangedPoint(String number) {
+        return String.format(point, number);
     }
 }

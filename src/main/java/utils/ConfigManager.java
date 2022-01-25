@@ -7,6 +7,9 @@ import java.util.Properties;
 
 public class ConfigManager {
 
+    private ConfigManager() {
+    }
+
     private static final String TEST_DATA_PATH = "src/test/resources/testData.properties";
 
     public static String getTestDataValue(String key) {
@@ -20,7 +23,7 @@ public class ConfigManager {
 
             return testDataProperties;
         } catch (IOException e) {
-            Logger.logError("Error - don't reading config file");
+            SmartLogger.logError("Don't reading config file");
             e.printStackTrace();
         }
 
@@ -28,7 +31,7 @@ public class ConfigManager {
     }
 
     public static void saveData(String path, String object) {
-        Logger.logInfo("Save data in file " + path);
+        SmartLogger.logInfo("Save data in file");
         try (FileWriter fileWriter = new FileWriter(path)) {
             fileWriter.write(object);
             fileWriter.flush();
@@ -38,7 +41,7 @@ public class ConfigManager {
     }
 
     public static Object readData(String path, Type type) {
-        Logger.logInfo("Read data in file " + path);
+        SmartLogger.logInfo("Read data in file");
         try (JsonReader reader = new JsonReader(new FileReader(path))) {
             return JsonConverter.convertToJson(reader, type);
         } catch (IOException e) {
@@ -49,7 +52,7 @@ public class ConfigManager {
     }
 
     public static void deleteFile(String path) {
-        Logger.logInfo("Delete file " + path);
+        SmartLogger.logInfo("Delete file");
         new File(path).delete();
     }
 }

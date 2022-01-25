@@ -2,8 +2,9 @@ package services;
 
 public enum PathToFiles {
 
-    CURRENT_USER("src\\test\\resources\\currentUser.json"),
-    NEW_USER("src\\test\\resources\\newUser.json");
+    EXPECTED_POST("src\\test\\resources\\expectedPost.json"),
+    ACTUAL_USER("src\\test\\resources\\actualUser.json"),
+    EXPECTED_USER("src\\test\\resources\\expectedUser.json");
 
     private String path;
 

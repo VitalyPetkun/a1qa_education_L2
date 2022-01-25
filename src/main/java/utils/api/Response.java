@@ -1,22 +1,25 @@
-package utils.API;
+package utils.api;
 
 import io.restassured.response.ValidatableResponse;
 
 public class Response {
 
-    private static int status;
-    private static String body;
+    private int status;
+    private String body;
 
-    public Response(ValidatableResponse validatableResponse) {
+    private Response() {
+    }
+
+    protected Response(ValidatableResponse validatableResponse) {
         status = validatableResponse.extract().statusCode();
         body = validatableResponse.extract().body().asString();
     }
 
-    public static int getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public static String getBody() {
+    public String getBody() {
         return body;
     }
 }
