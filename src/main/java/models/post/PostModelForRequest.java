@@ -1,11 +1,17 @@
 package models.post;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class PostModelForRequest {
 
+    private int userId;
     private String title;
     private String body;
-    private int userId;
+
+    public PostModelForRequest(int userId, String title, String body) {
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+    }
 }

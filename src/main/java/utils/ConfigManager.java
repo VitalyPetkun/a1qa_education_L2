@@ -2,15 +2,14 @@ package utils;
 
 import com.google.gson.stream.JsonReader;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.Properties;
 
 public class ConfigManager {
 
+    private static final String TEST_DATA_PATH = "src/test/resources/testData.properties";
+
     private ConfigManager() {
     }
-
-    private static final String TEST_DATA_PATH = "src/test/resources/testData.properties";
 
     public static String getTestDataValue(String key) {
         return getProperties(TEST_DATA_PATH).getProperty(key);
@@ -40,10 +39,10 @@ public class ConfigManager {
         }
     }
 
-    public static Object readData(String path, Type type) {
+    public static <T> T readData(String path, Class<T> cls) {
         SmartLogger.logInfo("Read data in file");
         try (JsonReader reader = new JsonReader(new FileReader(path))) {
-            return JsonConverter.convertToJson(reader, type);
+            return JsonConverter.getObject(reader, cls);
         } catch (IOException e) {
             e.printStackTrace();
         }

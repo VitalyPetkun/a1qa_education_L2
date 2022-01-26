@@ -1,28 +1,51 @@
 package utils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonConverter {
 
-    private static final Gson GSON = new Gson();
+    private static Gson gson;
 
     private JsonConverter() {
+        gson = new Gson();
     }
 
-    public static Object convertToJson(String value, Type type) {
-        SmartLogger.logInfo("Converting String to Json");
-        return GSON.fromJson(value, type);
+    private static Gson getGson() {
+        if(gson == null)
+            new JsonConverter();
+        return gson;
     }
 
-    public static Object convertToJson(JsonReader reader, Type type) {
-        SmartLogger.logInfo("Converting JsonReader to Json");
-        return GSON.fromJson(reader, type);
+    public static <T> T getObject(JsonReader jsonReader, Class<T> cls) {
+        SmartLogger.logInfo("Converting jsonReader to Object");
+        return getGson().fromJson(jsonReader, cls);
     }
 
-    public static String convertToString(Object object) {
+    public static <T> T getObject(String jsonString, Class<T> cls) {
+        SmartLogger.logInfo("Converting jsonString to Object");
+        return getGson().fromJson(jsonString, cls);
+    }
+
+    public static <T> List<T> getList(String jsonString, Class<T> cls) {
+        SmartLogger.logInfo("Converting jsonString to List");
+        List<T> list = new ArrayList<>();
+        JsonArray jsonArray = JsonParser.parseString(jsonString).getAsJsonArray();
+
+        for (JsonElement jsonElement:jsonArray) {
+            list.add(getObject(jsonElement.toString(), cls));
+        }
+
+        return list;
+    }
+
+    public static String getString(Object object) {
         SmartLogger.logInfo("Converting Object to String");
-        return GSON.toJson(object);
+        return getGson().toJson(object);
     }
 }

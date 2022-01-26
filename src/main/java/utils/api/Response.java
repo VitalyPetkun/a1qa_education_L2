@@ -7,9 +7,6 @@ public class Response {
     private int status;
     private String body;
 
-    private Response() {
-    }
-
     protected Response(ValidatableResponse validatableResponse) {
         status = validatableResponse.extract().statusCode();
         body = validatableResponse.extract().body().asString();

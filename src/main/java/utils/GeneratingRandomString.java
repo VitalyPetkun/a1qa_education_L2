@@ -2,11 +2,11 @@ package utils;
 
 public class GeneratingRandomString {
 
-    private GeneratingRandomString() {
-    }
-
     private static final int BOTTOM_VALUE = Integer.parseInt(ConfigManager.getTestDataValue("bottomValueFromTableASCII"));
     private static final int TOP_VALUE = Integer.parseInt(ConfigManager.getTestDataValue("topValueFromTableASCII"));
+
+    private GeneratingRandomString() {
+    }
 
     public static String generate(int stringLength) {
         String randomString = null;

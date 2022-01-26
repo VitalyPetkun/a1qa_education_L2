@@ -21,18 +21,17 @@ public class RequestPostTest extends BaseTest {
     public void post() {
         SmartLogger.logStep("STEP №4: POST request for creating 'post'");
         SmartLogger.logInfo("Creat post");
-        PostModelForRequest expectedPost = new PostModelForRequest();
+        PostModelForRequest expectedPost = new PostModelForRequest(
+                Integer.parseInt(ConfigManager.getTestDataValue("userIdForPostRequestPosts")),
+                GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
+                        getTestDataValue("titleLengthForGetRequestOnePost")))),
+                GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
+                        getTestDataValue("bodyLengthForGetRequestOnePost"))))
+        );
 
-        expectedPost.setUserId(Integer.parseInt(ConfigManager.getTestDataValue("userIdForPostRequestPosts")));
-        expectedPost.setTitle(GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
-                getTestDataValue("titleLengthForGetRequestOnePost")))));
-        expectedPost.setBody(GeneratingRandomString.generate((Integer.parseInt(ConfigManager.
-                getTestDataValue("bodyLengthForGetRequestOnePost")))));
+        response = APIUtils.doPost(POSTS.getPoint(), JsonConverter.getString(expectedPost));
 
-        response = APIUtils.doPost(POSTS.getPoint(), JsonConverter.convertToString(expectedPost));
-
-        PostModelForResponse actualPost = (PostModelForResponse) JsonConverter.
-                convertToJson(response.getBody(), PostModelForResponse.class);
+        PostModelForResponse actualPost = JsonConverter.getObject(response.getBody(), PostModelForResponse.class);
 
         Assert.assertEquals(response.getStatus(), HttpStatus.SC_CREATED, "Wrong status code returned");
         Assert.assertEquals(actualPost.getUserId(), expectedPost.getUserId(), "Not correct post's userId");
