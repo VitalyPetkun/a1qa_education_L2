@@ -11,7 +11,7 @@ public class StringManager {
     }
 
     public static String generate(int stringLength) {
-        String randomString = null;
+        String randomString = "";
         for (int i = 0; i < stringLength; i++) {
             randomString += String.valueOf(Character.toChars(
                     (int) (Math.random() * (TOP_VALUE - BOTTOM_VALUE)) + BOTTOM_VALUE));

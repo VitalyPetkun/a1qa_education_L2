@@ -4,7 +4,6 @@ import aquality.selenium.browser.AqualityServices;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import steps.HeaderMenuSteps;
-import steps.NewsPageSteps;
 import utils.SmartLogger;
 import utils.api.VkApiUtils;
 import static services.Uri.VK_URI;
@@ -24,9 +23,9 @@ public class BaseTest {
     @AfterMethod
     protected void quitDriver() {
         SmartLogger.logInfo("Open top profile menu");
-        NewsPageSteps.profileArrowCmbClick();
+        HeaderMenuSteps.profileArrowCmbClick();
         SmartLogger.logInfo("Sign out account");
-        NewsPageSteps.signOutBtnClick();
+        HeaderMenuSteps.signOutBtnClick();
         SmartLogger.logInfo("Quit browser");
         AqualityServices.getBrowser().getDriver().quit();
     }

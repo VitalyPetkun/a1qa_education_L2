@@ -7,13 +7,13 @@ import org.openqa.selenium.By;
 public class TopProfileMenu extends Form {
 
     private final IButton SIGN_OUT_BTN = getElementFactory().getButton(By.xpath("//a[@id='top_logout_link']//span"),
-            "Button sign out");
+            "Sign out");
 
     public TopProfileMenu() {
         super(By.xpath("//div[@id='top_profile_menu']"),"Top profile menu");
     }
 
-    protected void signOutBtnClick() {
+    public void signOutBtnClick() {
         SIGN_OUT_BTN.click();
     }
 }

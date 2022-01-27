@@ -8,12 +8,12 @@ import org.openqa.selenium.By;
 public class WelcomePage extends Form {
 
     private final ITextBox LOGIN_TXT = getElementFactory().getTextBox(By.xpath("//input[@id='index_email']"),
-            "TextBox login");
+            "Login");
     private final ITextBox PASSWORD_TXT = getElementFactory().getTextBox(By.xpath("//input[@id='index_pass']"),
-            "TextBox password");
+            "Password");
 
     private final IButton SIGN_IN_BTN = getElementFactory().getButton(By.xpath("//button[@id='index_login_button']"),
-            "Button sign in");
+            "Sign in");
 
     public WelcomePage() {
         super(By.xpath("//div[@id='index_login']"), "Welcome page");
