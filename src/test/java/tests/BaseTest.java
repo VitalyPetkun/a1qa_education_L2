@@ -12,7 +12,6 @@ public class BaseTest {
 
     @BeforeMethod
     protected void setup() {
-        SmartLogger.logInfo("Set baseUri");
         VkApiUtils.setupBaseUri(VK_URI.getUri());
         SmartLogger.logInfo("Set window size maximize");
         AqualityServices.getBrowser().getDriver().manage().window().maximize();
