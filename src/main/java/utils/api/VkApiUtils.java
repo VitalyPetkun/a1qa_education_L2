@@ -20,16 +20,8 @@ public class VkApiUtils {
         return new Response(given().get(endPoint).then());
     }
 
-    public static Response doPost(String endPoint, String body) {
+    public static Response doPost(String endPoint) {
         SmartLogger.logInfo(String.format("Post request %s%s", baseURI, endPoint));
-        return new Response(
-                given().
-                        header("Content-Type", "application/json").
-                        contentType(ContentType.JSON).
-                        accept(ContentType.JSON).
-                        body(body).
-                        when().
-                        post(endPoint).then()
-        );
+        return new Response(given().post(endPoint).then());
     }
 }

@@ -11,8 +11,12 @@ public class ProfilePageSteps {
         return PROFILE_PAGE.getFirstPostAuthor();
     }
 
-    public static String getFirstPostTitle() {
-        return PROFILE_PAGE.getFirstPostTitle();
+    public static String getFirstPostText() {
+        return PROFILE_PAGE.getFirstPostText();
+    }
+
+    public static String getFirstPostPhoto() {
+        return PROFILE_PAGE.getFirstPostPhoto();
     }
 
     public static void assertIsProfilePageOpen() {

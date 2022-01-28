@@ -2,11 +2,12 @@ package services;
 
 public enum VkEndPoints {
 
-    MY_PROFILE("/id627657327"),
-    METHOD("/method/%s"),
-    PARAMS("?message=%s"),
-    TOKEN("&access_token=%s"),
-    VERSION("&v=%s");
+    METHOD("/method/%s?"),
+    PARAM_POST_ID("post_id=%s&"),
+    PARAM_MESSAGE("message=%s&"),
+    PARAM_ATTACHMENT_PHOTO("attachments=photo%s_%s&"),
+    TOKEN("access_token=%s&"),
+    VERSION("v=%s");
 
     private String point;
 
@@ -14,7 +15,7 @@ public enum VkEndPoints {
         this.point = point;
     }
 
-    public String getPoint(String value) {
-        return String.format(point,value);
+    public String getPoint(String firstValue, String secondValue) {
+        return String.format(point,firstValue,secondValue);
     }
 }

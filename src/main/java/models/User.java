@@ -1,10 +1,11 @@
 package models;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class User {
 
+    private int id;
     private String login;
     private String password;
     private String token;
