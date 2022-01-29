@@ -2,9 +2,9 @@ package tests;
 
 import aquality.selenium.browser.AqualityServices;
 import models.CommentResponse;
+import models.LikesResponse;
 import models.PostResponse;
 import models.User;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import steps.NewsPageSteps;
 import steps.ProfilePageSteps;
@@ -29,6 +29,7 @@ public class UserTest extends BaseTest {
         Response response;
         PostResponse postResponse;
         CommentResponse commentResponse;
+        LikesResponse likesResponse;
 
         String postText;
         String editText;
@@ -109,6 +110,17 @@ public class UserTest extends BaseTest {
         SmartLogger.logStep("STEP №10: Put post like");
         ProfilePageSteps.postLikeClick(postId);
 
-
+        SmartLogger.logStep("STEP №11: Checking post like");
+        response = VkApiUtils.doGet(String.format(
+                "%s%s%s%s%s",
+                METHOD.getPoint(PropertiesManager.getTestDataValue("likesIsLiked"), null),
+                PARAM_TYPE.getPoint(PropertiesManager.getTestDataValue("typePost"),null),
+                PARAM_ITEM_ID.getPoint(String.valueOf(postId),null),
+                TOKEN.getPoint(user.getToken(), null),
+                VERSION.getPoint(PropertiesManager.getTestDataValue("versionApi"), null))
+        );
+        likesResponse = JsonManager.getObject(response.getBody(), LikesResponse.class);
+        ProfilePageSteps.assertIsAuthorLike(likesResponse.getResponse().getLiked(),
+                Integer.parseInt(PropertiesManager.getTestDataValue("liked")));
     }
 }

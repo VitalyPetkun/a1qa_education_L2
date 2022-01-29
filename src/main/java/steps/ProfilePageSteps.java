@@ -19,8 +19,8 @@ public class ProfilePageSteps {
         return PROFILE_PAGE.getPostPhoto(postId);
     }
 
-    private static String getCommentAuthor(int postId, int commentId) {
-        return PROFILE_PAGE.getCommentAuthor(postId, commentId);
+    private static int getCommentAuthor(int postId, int commentId) {
+        return Integer.parseInt(PROFILE_PAGE.getCommentAuthor(postId, commentId));
     }
 
     public static void showNextReplies(int postId) {
@@ -46,6 +46,10 @@ public class ProfilePageSteps {
 
     public static void assertIsCommentAuthorCorrect(int postId, int commentId, int userId) {
         Assert.assertEquals(getCommentAuthor(postId, commentId), userId,"Comment author id isn't correct");
+    }
+
+    public static void assertIsAuthorLike(int liked, int comparedValue) {
+        Assert.assertEquals(liked, comparedValue,"Author like isn't");
     }
 
     public static void assertIsProfilePageOpen() {

@@ -6,6 +6,8 @@ public enum VkEndPoints {
     PARAM_POST_ID("post_id=%s&"),
     PARAM_MESSAGE("message=%s&"),
     PARAM_ATTACHMENT_PHOTO("attachments=photo%s_%s&"),
+    PARAM_TYPE("type=%s&"),
+    PARAM_ITEM_ID("item_id=%s&"),
     TOKEN("access_token=%s&"),
     VERSION("v=%s");
 

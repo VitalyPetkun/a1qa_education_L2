@@ -7,7 +7,7 @@ import utils.PropertiesManager;
 public class ProfilePage extends Form {
 
     private final String POST_AUTHOR_LOCATOR = "//div[@id='page_wall_posts']/div[contains(@id,'%d')]//div[contains(@class,'PostHeader')]//a[@class='author']";
-    private final String POST_TEXT_LOCATOR = "//div[@id='page_wall_posts']/div[contains(@id,'%d')]//div[@class='wall_post_text']";
+    private final String POST_TEXT_LOCATOR = "//div[@id='page_wall_posts']/div[contains(@id,'%d')]//div[contains(@class,'wall_post_text')]";
     private final String POST_PHOTO_LOCATOR = "//div[@id='page_wall_posts']/div[contains(@id,'%d')]//div[contains(@class,'page')]/a";
     private final String COMMENT_LOCATOR = "//div[@id='page_wall_posts']/div[contains(@id,'%d')]" +
             "//div[@class='replies']//div[contains(@id,'post') and contains(@id,'%d')]";
