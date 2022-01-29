@@ -22,7 +22,6 @@ public class UserTest extends BaseTest {
 
     private final String VK_URL = PropertiesManager.getTestDataValue("vkUrl");
     private final String PATH_TEST_USER = "src\\test\\resources\\testUser.json";
-
     private final User user = PropertiesManager.readData(PATH_TEST_USER, User.class);
 
     @Test
@@ -31,11 +30,12 @@ public class UserTest extends BaseTest {
         PostResponse postResponse;
         CommentResponse commentResponse;
 
-        String postId;
         String postText;
         String editText;
         String commentText;
-        String commentId;
+
+        int postId;
+        int commentId;
 
         SmartLogger.logStep("STEP №1: Navigate to welcome page");
         AqualityServices.getBrowser().goTo(VK_URL);
@@ -64,12 +64,11 @@ public class UserTest extends BaseTest {
                 VERSION.getPoint(PropertiesManager.getTestDataValue("versionApi"), null))
         );
         postResponse = JsonManager.getObject(response.getBody(), PostResponse.class);
-        postId = String.valueOf(postResponse.getResponse().getPost_id());
-        Assert.assertNotEquals(postId, PropertiesManager.getTestDataValue("wrongPostId"), "Post id isn't correct");
+        postId = postResponse.getResponse().getPost_id();
 
         SmartLogger.logStep("STEP №5: Checking post text and author");
-        Assert.assertEquals(ProfilePageSteps.getPostText(postId), postText, "Post text isn't correct");
-        Assert.assertEquals(ProfilePageSteps.getPostAuthor(postId), String.valueOf(user.getId()), "Author id isn't correct");
+        ProfilePageSteps.assertIsPostTextCorrect(postId, postText);
+        ProfilePageSteps.assertIsPostAuthorCorrect(postId, user.getId());
 
         SmartLogger.logStep("STEP №6: Edit post");
         editText = StringManager.generate(Integer.parseInt(PropertiesManager.getTestDataValue("postTextLength")));
@@ -78,18 +77,17 @@ public class UserTest extends BaseTest {
                 METHOD.getPoint(PropertiesManager.getTestDataValue("wallEdit"), null),
                 PARAM_POST_ID.getPoint(String.valueOf(postResponse.getResponse().getPost_id()), null),
                 PARAM_MESSAGE.getPoint(editText, null),
-                PARAM_ATTACHMENT_PHOTO.getPoint(String.valueOf(user.getId()), PropertiesManager.getTestDataValue("idPhoto")),
+                PARAM_ATTACHMENT_PHOTO.getPoint(String.valueOf(user.getId()), PropertiesManager.getTestDataValue("photoId")),
                 TOKEN.getPoint(user.getToken(), null),
                 VERSION.getPoint(PropertiesManager.getTestDataValue("versionApi"), null))
         );
 
         SmartLogger.logStep("STEP №7: Checking edit post title and photo");
         postResponse = JsonManager.getObject(response.getBody(), PostResponse.class);
-        postId = String.valueOf(postResponse.getResponse().getPost_id());
-        Assert.assertEquals(ProfilePageSteps.getPostText(postId), editText, "Edit post text isn't correct");
-        Assert.assertEquals(ProfilePageSteps.getPostPhoto(postId),
-                String.format("%s_%s", user.getId(), PropertiesManager.getTestDataValue("idPhoto")),
-                "Photo id isn't correct");
+        postId = postResponse.getResponse().getPost_id();
+        ProfilePageSteps.assertIsPostTextCorrect(postId, editText);
+        ProfilePageSteps.assertIsPostPhotoCorrect(postId, user.getId(),
+                Integer.parseInt(PropertiesManager.getTestDataValue("photoId")));
 
         SmartLogger.logStep("STEP №8: Create comment under post");
         commentText = StringManager.generate(Integer.parseInt(PropertiesManager.getTestDataValue("commentTextLength")));
@@ -104,9 +102,13 @@ public class UserTest extends BaseTest {
 
         SmartLogger.logStep("STEP №9: Checking comment");
         commentResponse = JsonManager.getObject(response.getBody(), CommentResponse.class);
-        commentId = String.valueOf(commentResponse.getResponse().getComment_id());
+        commentId = commentResponse.getResponse().getComment_id();
         ProfilePageSteps.showNextReplies(postId);
-        Assert.assertEquals(ProfilePageSteps.getPostCommentAuthor(postId, commentId), String.valueOf(user.getId()),
-                "Comment author id isn't correct");
+        ProfilePageSteps.assertIsCommentAuthorCorrect(postId, commentId, user.getId());
+
+        SmartLogger.logStep("STEP №10: Put post like");
+        ProfilePageSteps.postLikeClick(postId);
+
+
     }
 }
