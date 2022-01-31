@@ -1,6 +1,5 @@
 package utils.api;
 
-import io.restassured.http.ContentType;
 import utils.SmartLogger;
 
 import static io.restassured.RestAssured.*;

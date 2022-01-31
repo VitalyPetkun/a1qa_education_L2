@@ -9,10 +9,8 @@ public class HeaderMenu extends Form {
     private final IComboBox PROFILE_ARROW_CMB = getElementFactory().getComboBox(
             By.xpath("//div[@class='TopNavBtn__profileArrow']"), "Profile arrow");
 
-    private static final TopProfileMenu TOP_PROFILE_MENU = new TopProfileMenu();
-
     public HeaderMenu() {
-        super(By.xpath("//div[@id='page_header_cont']"),"Header menu");
+        super(By.xpath("//div[@id='page_header_cont']"), "Header menu");
     }
 
     public void profileArrowCmbClick() {

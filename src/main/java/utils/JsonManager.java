@@ -1,13 +1,7 @@
 package utils;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class JsonManager {
 
@@ -18,7 +12,7 @@ public class JsonManager {
     }
 
     private static Gson getGson() {
-        if(gson == null)
+        if (gson == null)
             new JsonManager();
         return gson;
     }
@@ -31,22 +25,5 @@ public class JsonManager {
     public static <T> T getObject(String jsonString, Class<T> cls) {
         SmartLogger.logInfo("Converting jsonString to Object");
         return getGson().fromJson(jsonString, cls);
-    }
-
-    public static <T> List<T> getList(String jsonString, Class<T> cls) {
-        SmartLogger.logInfo("Converting jsonString to List");
-        List<T> list = new ArrayList<>();
-        JsonArray jsonArray = JsonParser.parseString(jsonString).getAsJsonArray();
-
-        for (JsonElement jsonElement:jsonArray) {
-            list.add(getObject(jsonElement.toString(), cls));
-        }
-
-        return list;
-    }
-
-    public static String getString(Object object) {
-        SmartLogger.logInfo("Converting Object to String");
-        return getGson().toJson(object);
     }
 }

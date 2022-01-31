@@ -1,11 +1,15 @@
 package tests;
 
 import aquality.selenium.browser.AqualityServices;
+import aquality.selenium.browser.Browser;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import steps.HeaderMenuSteps;
 import utils.SmartLogger;
 import utils.api.VkApiUtils;
+
 import static services.Uri.VK_URI;
 
 public class BaseTest {

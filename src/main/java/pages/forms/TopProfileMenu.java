@@ -10,7 +10,7 @@ public class TopProfileMenu extends Form {
             "Sign out");
 
     public TopProfileMenu() {
-        super(By.xpath("//div[@id='top_profile_menu']"),"Top profile menu");
+        super(By.xpath("//div[@id='top_profile_menu']"), "Top profile menu");
     }
 
     public void signOutBtnClick() {

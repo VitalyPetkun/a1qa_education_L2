@@ -18,6 +18,6 @@ public enum VkEndPoints {
     }
 
     public String getPoint(String firstValue, String secondValue) {
-        return String.format(point,firstValue,secondValue);
+        return String.format(point, firstValue, secondValue);
     }
 }

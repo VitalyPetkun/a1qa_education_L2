@@ -1,7 +1,5 @@
 package utils;
 
-import utils.PropertiesManager;
-
 public class StringManager {
 
     private static final int BOTTOM_VALUE = Integer.parseInt(PropertiesManager.getTestDataValue("bottomValueFromTableASCII"));

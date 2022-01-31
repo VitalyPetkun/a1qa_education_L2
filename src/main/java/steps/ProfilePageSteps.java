@@ -1,5 +1,6 @@
 package steps;
 
+import aquality.selenium.browser.AqualityServices;
 import org.testng.Assert;
 import pages.ProfilePage;
 
@@ -23,9 +24,14 @@ public class ProfilePageSteps {
         return Integer.parseInt(PROFILE_PAGE.getCommentAuthor(postId, commentId));
     }
 
+    private static boolean isPostDelete(int postId) {
+        AqualityServices.getConditionalWait().waitFor(condition -> (!PROFILE_PAGE.isPostDelete(postId)));
+        return PROFILE_PAGE.isPostDelete(postId);
+    }
+
     public static void showNextReplies(int postId) {
         if (PROFILE_PAGE.isShowNextRepliesDisplayed(postId))
-            PROFILE_PAGE.showNextRepliesClick(postId);
+            PROFILE_PAGE.showNextRepliesClick();
     }
 
     public static void postLikeClick(int postId) {
@@ -45,11 +51,15 @@ public class ProfilePageSteps {
     }
 
     public static void assertIsCommentAuthorCorrect(int postId, int commentId, int userId) {
-        Assert.assertEquals(getCommentAuthor(postId, commentId), userId,"Comment author id isn't correct");
+        Assert.assertEquals(getCommentAuthor(postId, commentId), userId, "Comment author id isn't correct");
     }
 
-    public static void assertIsAuthorLike(int liked, int comparedValue) {
-        Assert.assertEquals(liked, comparedValue,"Author like isn't");
+    public static void assertIsLikeAuthor(int liked, int comparedValue) {
+        Assert.assertEquals(liked, comparedValue, "Like author isn't");
+    }
+
+    public static void assertIsDeletePost(int postId) {
+        Assert.assertFalse(isPostDelete(postId), "Post isn't delete");
     }
 
     public static void assertIsProfilePageOpen() {

@@ -1,10 +1,11 @@
 package tests;
 
 import aquality.selenium.browser.AqualityServices;
-import models.CommentResponse;
-import models.LikesResponse;
-import models.PostResponse;
-import models.User;
+import lombok.SneakyThrows;
+import models.*;
+import models.Comment.CommentResponse;
+import models.Likes.LikesResponse;
+import models.Post.PostResponse;
 import org.testng.annotations.Test;
 import steps.NewsPageSteps;
 import steps.ProfilePageSteps;
@@ -21,9 +22,10 @@ import static services.VkEndPoints.*;
 public class UserTest extends BaseTest {
 
     private final String VK_URL = PropertiesManager.getTestDataValue("vkUrl");
-    private final String PATH_TEST_USER = "src\\test\\resources\\testUser.json";
-    private final User user = PropertiesManager.readData(PATH_TEST_USER, User.class);
+    private final String TEST_USER_PATH = "src\\test\\resources\\testUser.json";
+    private final User user = PropertiesManager.readData(TEST_USER_PATH, User.class);
 
+    @SneakyThrows
     @Test
     public void authorization() {
         Response response;
@@ -86,9 +88,9 @@ public class UserTest extends BaseTest {
         SmartLogger.logStep("STEP №7: Checking edit post title and photo");
         postResponse = JsonManager.getObject(response.getBody(), PostResponse.class);
         postId = postResponse.getResponse().getPost_id();
-        ProfilePageSteps.assertIsPostTextCorrect(postId, editText);
         ProfilePageSteps.assertIsPostPhotoCorrect(postId, user.getId(),
                 Integer.parseInt(PropertiesManager.getTestDataValue("photoId")));
+        ProfilePageSteps.assertIsPostTextCorrect(postId, editText);
 
         SmartLogger.logStep("STEP №8: Create comment under post");
         commentText = StringManager.generate(Integer.parseInt(PropertiesManager.getTestDataValue("commentTextLength")));
@@ -110,17 +112,29 @@ public class UserTest extends BaseTest {
         SmartLogger.logStep("STEP №10: Put post like");
         ProfilePageSteps.postLikeClick(postId);
 
-        SmartLogger.logStep("STEP №11: Checking post like");
+        SmartLogger.logStep("STEP №11: Checking post like author");
         response = VkApiUtils.doGet(String.format(
                 "%s%s%s%s%s",
                 METHOD.getPoint(PropertiesManager.getTestDataValue("likesIsLiked"), null),
-                PARAM_TYPE.getPoint(PropertiesManager.getTestDataValue("typePost"),null),
-                PARAM_ITEM_ID.getPoint(String.valueOf(postId),null),
+                PARAM_TYPE.getPoint(PropertiesManager.getTestDataValue("typePost"), null),
+                PARAM_ITEM_ID.getPoint(String.valueOf(postId), null),
                 TOKEN.getPoint(user.getToken(), null),
                 VERSION.getPoint(PropertiesManager.getTestDataValue("versionApi"), null))
         );
         likesResponse = JsonManager.getObject(response.getBody(), LikesResponse.class);
-        ProfilePageSteps.assertIsAuthorLike(likesResponse.getResponse().getLiked(),
+        ProfilePageSteps.assertIsLikeAuthor(likesResponse.getResponse().getLiked(),
                 Integer.parseInt(PropertiesManager.getTestDataValue("liked")));
+
+        SmartLogger.logStep("STEP №12: Delete post");
+        VkApiUtils.doGet(String.format(
+                "%s%s%s%s",
+                METHOD.getPoint(PropertiesManager.getTestDataValue("wallDelete"), null),
+                PARAM_POST_ID.getPoint(String.valueOf(postId), null),
+                TOKEN.getPoint(user.getToken(), null),
+                VERSION.getPoint(PropertiesManager.getTestDataValue("versionApi"), null))
+        );
+
+        SmartLogger.logStep("STEP №13: Checking delete post");
+        ProfilePageSteps.assertIsDeletePost(postId);
     }
 }
