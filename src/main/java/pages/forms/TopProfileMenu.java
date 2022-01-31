@@ -14,6 +14,6 @@ public class TopProfileMenu extends Form {
     }
 
     public void signOutBtnClick() {
-        SIGN_OUT_BTN.click();
+        SIGN_OUT_BTN.clickAndWait();
     }
 }

@@ -14,6 +14,6 @@ public class SideBar extends Form {
     }
 
     public void myProfileBtnClick() {
-        MY_PROFILE_BTN.click();
+        MY_PROFILE_BTN.clickAndWait();
     }
 }

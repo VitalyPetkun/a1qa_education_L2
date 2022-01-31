@@ -1,5 +1,6 @@
 package pages;
 
+import aquality.selenium.elements.actions.JsActions;
 import aquality.selenium.elements.interfaces.IButton;
 import aquality.selenium.elements.interfaces.ILabel;
 import aquality.selenium.forms.Form;
@@ -13,7 +14,7 @@ public class ProfilePage extends Form {
     private final String POST_TEXT_LOCATOR = String.format("%s//div[contains(@class,'wall_post_text')]", POST);
     private final String POST_PHOTO_LOCATOR = String.format("%s//div[contains(@class,'page')]/a", POST);
     private final String COMMENT_LOCATOR = "//div[@id='page_wall_posts']/div[contains(@id,'%d')]//div[@class='replies']//div[contains(@id,'post') and contains(@id,'%d')]";
-    private final String SHOW_NEXT_REPLIES_LOCATOR = String.format("%s//div[@class='replies']//a[contains(@onclick,'wall.showNextReplies')]//span[contains(@class,'next_label')]", POST);
+    private final String SHOW_NEXT_REPLIES_LOCATOR = String.format("%s//div[@class='replies']//a[contains(@onclick,'wall.showNextReplies')]", POST);
     private final String POST_LIKE_LOCATOR = String.format("%s//div[contains(@class,'PostBottomAction') and contains(@class,'PostButtonReactions--post')]", POST);
 
     private IButton showNextReplices;
@@ -34,7 +35,6 @@ public class ProfilePage extends Form {
 
     public String getPostPhoto(int postId) {
         ILabel postPhoto = getElementFactory().getLabel(By.xpath(String.format(POST_PHOTO_LOCATOR, postId)), "post photo");
-        postPhoto.getMouseActions().moveMouseToElement();
         return postPhoto.getAttribute(PropertiesManager.getTestDataValue("postAttributeDataPhotoId"));
     }
 
@@ -55,7 +55,7 @@ public class ProfilePage extends Form {
     }
 
     public void postLikeClick(int postId) {
-        getElementFactory().getButton(By.xpath(String.format(POST_LIKE_LOCATOR, postId)), "post like").click();
+        getElementFactory().getButton(By.xpath(String.format(POST_LIKE_LOCATOR, postId)), "post like").clickAndWait();
     }
 
     public boolean isPostDelete(int postId) {
