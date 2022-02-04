@@ -6,14 +6,17 @@ import pages.forms.SideBar;
 
 public class NewsPageSteps {
 
-    private static final SideBar SIDE_BAR = new SideBar();
-    private static final NewsPage NEWS_PAGE = new NewsPage();
+    private static final SideBar sideBar = new SideBar();
+    private static final NewsPage newsPage = new NewsPage();
+
+    private NewsPageSteps() {
+    }
 
     public static void myProfileBtnClick() {
-        SIDE_BAR.myProfileBtnClick();
+        sideBar.myProfileBtnClick();
     }
 
     public static void assertIsNewsPageOpen() {
-        Assert.assertTrue(NEWS_PAGE.isDisplayed(), "News page isn't open.");
+        Assert.assertTrue(newsPage.state().waitForDisplayed(), "News page isn't open.");
     }
 }

@@ -7,12 +7,12 @@ import org.openqa.selenium.By;
 
 public class WelcomePage extends Form {
 
-    private final ITextBox LOGIN_TXT = getElementFactory().getTextBox(By.xpath("//input[@id='index_email']"),
+    private final ITextBox loginTxt = getElementFactory().getTextBox(By.xpath("//input[@id='index_email']"),
             "Login");
-    private final ITextBox PASSWORD_TXT = getElementFactory().getTextBox(By.xpath("//input[@id='index_pass']"),
+    private final ITextBox passwordTxt = getElementFactory().getTextBox(By.xpath("//input[@id='index_pass']"),
             "Password");
 
-    private final IButton SIGN_IN_BTN = getElementFactory().getButton(By.xpath("//button[@id='index_login_button']"),
+    private final IButton signInBtn = getElementFactory().getButton(By.xpath("//button[@id='index_login_button']"),
             "Sign in");
 
     public WelcomePage() {
@@ -20,14 +20,14 @@ public class WelcomePage extends Form {
     }
 
     public void loginTxtInput(String login) {
-        LOGIN_TXT.clearAndType(login);
+        loginTxt.clearAndType(login);
     }
 
     public void passwordTxtInput(String password) {
-        PASSWORD_TXT.clearAndType(password);
+        passwordTxt.clearAndType(password);
     }
 
     public void signInBtnClick() {
-        SIGN_IN_BTN.click();
+        signInBtn.clickAndWait();
     }
 }

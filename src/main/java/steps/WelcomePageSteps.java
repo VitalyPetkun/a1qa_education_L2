@@ -1,25 +1,35 @@
 package steps;
 
+import models.User;
 import org.testng.Assert;
 import pages.WelcomePage;
 
 public class WelcomePageSteps {
 
-    private static final WelcomePage WELCOME_PAGE = new WelcomePage();
+    private static final WelcomePage welcomePage = new WelcomePage();
 
-    public static void loginTxtInput(String login) {
-        WELCOME_PAGE.loginTxtInput(login);
+    private WelcomePageSteps() {
     }
 
-    public static void passwordTxtInput(String password) {
-        WELCOME_PAGE.passwordTxtInput(password);
+    private static void loginTxtInput(String login) {
+        welcomePage.loginTxtInput(login);
     }
 
-    public static void signInBtnClick() {
-        WELCOME_PAGE.signInBtnClick();
+    private static void passwordTxtInput(String password) {
+        welcomePage.passwordTxtInput(password);
+    }
+
+    private static void signInBtnClick() {
+        welcomePage.signInBtnClick();
+    }
+
+    public static void authorization(User user) {
+        loginTxtInput(user.getLogin());
+        passwordTxtInput(user.getPassword());
+        signInBtnClick();
     }
 
     public static void assertIsWelcomePageOpen() {
-        Assert.assertTrue(WELCOME_PAGE.isDisplayed(), "Welcome page isn't open.");
+        Assert.assertTrue(welcomePage.state().isDisplayed(), "Welcome page isn't open.");
     }
 }

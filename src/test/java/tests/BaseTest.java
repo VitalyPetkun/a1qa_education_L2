@@ -1,14 +1,11 @@
 package tests;
 
 import aquality.selenium.browser.AqualityServices;
-import aquality.selenium.browser.Browser;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import steps.HeaderMenuSteps;
 import utils.SmartLogger;
-import utils.api.VkApiUtils;
+import utils.api.ApiUtils;
 
 import static services.Uri.VK_URI;
 
@@ -16,7 +13,7 @@ public class BaseTest {
 
     @BeforeMethod
     protected void setup() {
-        VkApiUtils.setupBaseUri(VK_URI.getUri());
+        ApiUtils.setupBaseUri(VK_URI.getUri());
         SmartLogger.logInfo("Set window size maximize");
         AqualityServices.getBrowser().getDriver().manage().window().maximize();
         SmartLogger.logInfo("Timeout load browser");

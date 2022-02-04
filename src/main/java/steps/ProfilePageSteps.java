@@ -6,36 +6,39 @@ import pages.ProfilePage;
 
 public class ProfilePageSteps {
 
-    private static final ProfilePage PROFILE_PAGE = new ProfilePage();
+    private static final ProfilePage profilePage = new ProfilePage();
+
+    private ProfilePageSteps() {
+    }
 
     private static String getPostAuthor(int postId) {
-        return PROFILE_PAGE.getPostAuthor(postId);
+        return profilePage.getPostAuthor(postId);
     }
 
     private static String getPostText(int postId) {
-        return PROFILE_PAGE.getPostText(postId);
+        return profilePage.getPostText(postId);
     }
 
     private static String getPostPhoto(int postId) {
-        return PROFILE_PAGE.getPostPhoto(postId);
+        return profilePage.getPostPhoto(postId);
     }
 
-    private static int getCommentAuthor(int postId, int commentId) {
-        return Integer.parseInt(PROFILE_PAGE.getCommentAuthor(postId, commentId));
+    private static int getCommentAuthorId(int postId) {
+        return Integer.parseInt(profilePage.getCommentAuthorId(postId));
     }
 
-    private static boolean isPostDelete(int postId) {
-        AqualityServices.getConditionalWait().waitFor(condition -> (!PROFILE_PAGE.isPostDelete(postId)));
-        return PROFILE_PAGE.isPostDelete(postId);
+    private static boolean isPostDisplayed(int postId) {
+        AqualityServices.getConditionalWait().waitFor(condition -> (!profilePage.isPostDisplayed(postId)));
+        return profilePage.isPostDisplayed(postId);
     }
 
     public static void showNextReplies(int postId) {
-        if (PROFILE_PAGE.isShowNextRepliesDisplayed(postId))
-            PROFILE_PAGE.showNextRepliesClick();
+        if (profilePage.isShowNextRepliesDisplayed(postId))
+            profilePage.showNextRepliesClick();
     }
 
     public static void postLikeClick(int postId) {
-        PROFILE_PAGE.postLikeClick(postId);
+        profilePage.postLikeClick(postId);
     }
 
     public static void assertIsPostTextCorrect(int postId, String postText) {
@@ -50,19 +53,19 @@ public class ProfilePageSteps {
         Assert.assertEquals(getPostPhoto(postId), String.format("%d_%d", userId, photoId), "Photo id isn't correct");
     }
 
-    public static void assertIsCommentAuthorCorrect(int postId, int commentId, int userId) {
-        Assert.assertEquals(getCommentAuthor(postId, commentId), userId, "Comment author id isn't correct");
+    public static void assertIsCommentAuthorIdCorrect(int postId, int userId) {
+        Assert.assertEquals(getCommentAuthorId(postId), userId, "Comment's author id isn't correct");
     }
 
-    public static void assertIsLikeAuthor(int liked, int comparedValue) {
-        Assert.assertEquals(liked, comparedValue, "Like author isn't");
+    public static void assertIsAuthorLike(int liked, int comparedValue) {
+        Assert.assertEquals(liked, comparedValue, "Author doesn't like post");
     }
 
-    public static void assertIsDeletePost(int postId) {
-        Assert.assertFalse(isPostDelete(postId), "Post isn't delete");
+    public static void assertIsPostExists(int postId) {
+        Assert.assertFalse(isPostDisplayed(postId), "Post isn't delete");
     }
 
     public static void assertIsProfilePageOpen() {
-        Assert.assertTrue(PROFILE_PAGE.isDisplayed(), "Profile page isn't open");
+        Assert.assertTrue(profilePage.state().waitForDisplayed(), "Profile page isn't open");
     }
 }

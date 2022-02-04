@@ -2,14 +2,11 @@ package services;
 
 public enum VkEndPoints {
 
-    METHOD("/method/%s?"),
-    PARAM_POST_ID("post_id=%s&"),
-    PARAM_MESSAGE("message=%s&"),
-    PARAM_ATTACHMENT_PHOTO("attachments=photo%s_%s&"),
-    PARAM_TYPE("type=%s&"),
-    PARAM_ITEM_ID("item_id=%s&"),
-    TOKEN("access_token=%s&"),
-    VERSION("v=%s");
+    WALL_POST("wall.post"),
+    WALL_EDIT("wall.edit"),
+    WALL_CREATE_COMMENT("wall.createComment"),
+    WALL_DELETE("wall.delete"),
+    LIKES_IS_LIKED("likes.isLiked");
 
     private String point;
 
@@ -17,7 +14,7 @@ public enum VkEndPoints {
         this.point = point;
     }
 
-    public String getPoint(String firstValue, String secondValue) {
-        return String.format(point, firstValue, secondValue);
+    public String getPoint() {
+        return point;
     }
 }

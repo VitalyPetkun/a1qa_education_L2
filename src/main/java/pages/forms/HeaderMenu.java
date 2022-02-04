@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 public class HeaderMenu extends Form {
 
-    private final IComboBox PROFILE_ARROW_CMB = getElementFactory().getComboBox(
+    private final IComboBox profileArrowCmb = getElementFactory().getComboBox(
             By.xpath("//div[@class='TopNavBtn__profileArrow']"), "Profile arrow");
 
     public HeaderMenu() {
@@ -14,6 +14,6 @@ public class HeaderMenu extends Form {
     }
 
     public void profileArrowCmbClick() {
-        PROFILE_ARROW_CMB.clickAndWait();
+        profileArrowCmb.clickAndWait();
     }
 }
