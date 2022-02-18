@@ -1,9 +1,8 @@
-package services;
+package services.dataBaseUnionReporting;
 
 public enum ProjectsName {
 
-    PROJECTS_NEXAGE("Nexage"),
-    PROJECTS_USERINYERFACE("Userinyerface");
+    PROJECT_USERINYERFACE("Userinyerface");
 
     private String name;
 

@@ -1,11 +1,10 @@
-package utils.dataBases.union_Reporting;
+package utils.dataBase;
 
 import utils.PropertiesManager;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import static services.DataBaseConst.*;
 
 public class DataBaseHandler {
@@ -18,15 +17,14 @@ public class DataBaseHandler {
 
     private static Connection dbConnection;
 
-    private static int counter = 0;
-
-    private DataBaseHandler() {}
+    private DataBaseHandler() {
+    }
 
     public static Connection getDbConnection() {
-        try{
+        try {
             Class.forName(JDBC_DRIVER);
             dbConnection = DriverManager.getConnection(CONNECTION_URL, DB_USER, DB_PASSWORD);
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("Connection failed...");
             System.out.println(ex);
         }
@@ -36,7 +34,14 @@ public class DataBaseHandler {
 
 
     public static boolean isItem(ResultSet resultSet) {
-        counter = 0;
+        if (resultSetSize(resultSet) > 0)
+            return true;
+
+        return false;
+    }
+
+    public static int resultSetSize(ResultSet resultSet) {
+        int counter = 0;
         try {
             while (resultSet.next()) {
                 ++counter;
@@ -44,10 +49,23 @@ public class DataBaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return counter;
+    }
 
-        if (counter > 0)
-            return true;
+    public static int randomId(int maxId, int minId) {
+        int number = (int) (Math.random() * (((maxId + 1) - minId) + 1)) + minId;
 
-        return false;
+        String strNumber = String.valueOf(number);
+        char[] numberArray = strNumber.toCharArray();
+
+        for (int i = 0; i < numberArray.length; i++) {
+            for (int j = i + 1; j < numberArray.length; j++) {
+                if (numberArray[i] == numberArray[j]) {
+                    return number;
+                }
+            }
+        }
+
+        return randomId(maxId, minId);
     }
 }

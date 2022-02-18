@@ -1,4 +1,4 @@
-package tests;
+package tests.ts01;
 
 import aquality.selenium.browser.AqualityServices;
 import org.testng.annotations.Test;
@@ -19,7 +19,7 @@ public class HelpTest extends BaseTest {
         WelcomePageSteps.nextPageLnkClick();
         RegistrationPageSteps.assertIsHelpFormOpen();
 
-        SmartLogger.logStep(3 , "Hiding the help form");
+        SmartLogger.logStep(3, "Hiding the help form");
         SmartLogger.logInfo("Click button for help form hidden");
         RegistrationPageSteps.sendToBottomBtnClick();
         SmartLogger.logInfo("Wait for help form hides");

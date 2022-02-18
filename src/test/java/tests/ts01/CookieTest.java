@@ -1,4 +1,4 @@
-package tests;
+package tests.ts01;
 
 import aquality.selenium.browser.AqualityServices;
 import org.testng.annotations.Test;

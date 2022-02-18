@@ -1,14 +1,12 @@
-package utils.dataBases.union_Reporting.tables;
+package utils.dataBase.unionReporting.tables;
 
 import org.testng.ITestResult;
 import utils.SmartLogger;
-import utils.dataBases.union_Reporting.DataBaseHandler;
-
+import utils.dataBase.DataBaseHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static services.DataBaseConst.*;
+import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
 
 public class Status {
 
@@ -18,8 +16,8 @@ public class Status {
     public static ResultSet get(ITestResult result) {
         SmartLogger.logInfo("Get test status");
         ResultSet resultSet = null;
-        String select = "SELECT * FROM ".concat(STATUS_TABLE.getConst()).concat(" WHERE ").
-                concat(STATUS_NAME.getConst()).concat("=?");
+        String select = "SELECT * FROM ".concat(STATUS_TABLE.getValue()).concat(" WHERE ").
+                concat(STATUS_NAME.getValue()).concat("=?");
 
         try {
             PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);

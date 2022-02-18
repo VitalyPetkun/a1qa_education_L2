@@ -1,14 +1,12 @@
-package utils.dataBases.union_Reporting.tables;
+package utils.dataBase.unionReporting.tables;
 
 import models.AuthorModel;
 import utils.SmartLogger;
-import utils.dataBases.union_Reporting.DataBaseHandler;
-
+import utils.dataBase.DataBaseHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static services.DataBaseConst.*;
+import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
 
 public class Author {
 
@@ -19,9 +17,9 @@ public class Author {
         SmartLogger.logInfo("Add author data");
         ResultSet resultSet = get(author);
         if (!DataBaseHandler.isItem(resultSet)) {
-            String insert = "INSERT INTO ".concat(AUTHOR_TABLE.getConst()).concat("(").
-                    concat(AUTHOR_NAME.getConst()).concat(",").concat(AUTHOR_LOGIN.getConst()).concat(",").
-                    concat(AUTHOR_EMAIL.getConst()).concat(")").concat("VALUES(?,?,?)");
+            String insert = "INSERT INTO ".concat(AUTHOR_TABLE.getValue()).concat("(").
+                    concat(AUTHOR_NAME.getValue()).concat(",").concat(AUTHOR_LOGIN.getValue()).concat(",").
+                    concat(AUTHOR_EMAIL.getValue()).concat(")").concat("VALUES(?,?,?)");
 
             try {
                 PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(insert);
@@ -39,9 +37,9 @@ public class Author {
     public static ResultSet get(AuthorModel author) {
         SmartLogger.logInfo("Get author data");
         ResultSet resultSet = null;
-        String select = "SELECT * FROM ".concat(AUTHOR_TABLE.getConst()).concat(" WHERE ").
-                concat(AUTHOR_NAME.getConst()).concat("=? AND ").concat(AUTHOR_LOGIN.getConst()).concat("=? AND ").
-                concat(AUTHOR_EMAIL.getConst()).concat("=?");
+        String select = "SELECT * FROM ".concat(AUTHOR_TABLE.getValue()).concat(" WHERE ").
+                concat(AUTHOR_NAME.getValue()).concat("=? AND ").concat(AUTHOR_LOGIN.getValue()).concat("=? AND ").
+                concat(AUTHOR_EMAIL.getValue()).concat("=?");
 
         try {
             PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);

@@ -1,13 +1,11 @@
-package utils.dataBases.union_Reporting.tables;
+package utils.dataBase.unionReporting.tables;
 
 import utils.SmartLogger;
-import utils.dataBases.union_Reporting.DataBaseHandler;
-
+import utils.dataBase.DataBaseHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static services.DataBaseConst.*;
+import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
 
 public class Project {
 
@@ -18,8 +16,8 @@ public class Project {
         SmartLogger.logInfo("Add project name");
         ResultSet resultSet = get(projectName);
         if (!DataBaseHandler.isItem(resultSet)) {
-            String insert = "INSERT INTO ".concat(PROJECT_TABLE.getConst()).concat("(").
-                    concat(PROJECT_NAME.getConst()).concat(")").concat("VALUES(?)");
+            String insert = "INSERT INTO ".concat(PROJECT_TABLE.getValue()).concat("(").
+                    concat(PROJECT_NAME.getValue()).concat(")").concat("VALUES(?)");
 
             try {
                 PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(insert);
@@ -35,8 +33,8 @@ public class Project {
     public static ResultSet get(String projectName) {
         SmartLogger.logInfo("Get project name");
         ResultSet resultSet = null;
-        String select = "SELECT * FROM ".concat(PROJECT_TABLE.getConst()).concat(" WHERE ").
-                concat(PROJECT_NAME.getConst()).concat("=?");
+        String select = "SELECT * FROM ".concat(PROJECT_TABLE.getValue()).concat(" WHERE ").
+                concat(PROJECT_NAME.getValue()).concat("=?");
 
         try {
             PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);

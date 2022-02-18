@@ -1,7 +1,6 @@
-package tests;
+package tests.ts01;
 
 import aquality.selenium.browser.AqualityServices;
-import org.testng.Reporter;
 import org.testng.annotations.Test;
 import steps.WelcomePageSteps;
 import steps.RegistrationPageSteps;

@@ -1,9 +1,10 @@
 package models;
 
+import lombok.Getter;
 import utils.PropertiesManager;
-
 import java.text.SimpleDateFormat;
 
+@Getter
 public class SessionModel {
 
     private final String DATA_FORMAT = PropertiesManager.getConfigValue("dataFormatForTestTime");
@@ -15,24 +16,12 @@ public class SessionModel {
     public SessionModel() {
     }
 
-    public String getSessionKey() {
-        return sessionKey;
-    }
-
     public void setSessionKey(long sessionKey) {
         this.sessionKey = String.valueOf(sessionKey);
     }
 
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
     public void setCreatedTime(long createdTime) {
         this.createdTime = new SimpleDateFormat(DATA_FORMAT).format(createdTime);
-    }
-
-    public String getBuildNumber() {
-        return buildNumber;
     }
 
     public void setBuildNumber(int buildNumber) {
