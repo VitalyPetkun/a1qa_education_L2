@@ -11,6 +11,8 @@ import java.util.TimeZone;
 
 public class TimerTest extends BaseTest {
 
+    private final String dataFormat = PropertiesManager.getTestDataValue("dataFormatForTimerTest");
+
     private long start;
     private long finish;
     private long durationInMillisecond;
@@ -30,6 +32,6 @@ public class TimerTest extends BaseTest {
 
         SmartLogger.logStep(3, "Get start time");
         durationInMillisecond = finish - start;
-        RegistrationPageSteps.assertIsTimerStartFromZero(new SimpleDateFormat("HH:mm:ss").format(durationInMillisecond));
+        RegistrationPageSteps.assertIsTimerStartFromZero(new SimpleDateFormat(dataFormat).format(durationInMillisecond));
     }
 }

@@ -5,11 +5,11 @@ import utils.dataBase.DataBaseHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
+import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
 
-public class Project {
+public class ProjectTable {
 
-    private Project() {
+    private ProjectTable() {
     }
 
     public static void add(String projectName) {
@@ -25,7 +25,7 @@ public class Project {
 
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                SmartLogger.logError("ResultSet is null");
             }
         }
     }
@@ -42,7 +42,7 @@ public class Project {
 
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return resultSet;

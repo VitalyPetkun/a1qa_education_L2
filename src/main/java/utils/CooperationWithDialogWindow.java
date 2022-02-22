@@ -10,7 +10,6 @@ public class CooperationWithDialogWindow {
     }
 
     public static void openFileDialogWindow(String resourcesPath, String nameFile) {
-
         try {
             Thread.sleep(Integer.parseInt(PropertiesManager.getConfigValue("sleepTime")));
             Robot robot = new Robot();
@@ -26,8 +25,8 @@ public class CooperationWithDialogWindow {
             robot.keyRelease(KeyEvent.VK_ENTER);
 
             Thread.sleep(Integer.parseInt(PropertiesManager.getConfigValue("sleepTime")));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InterruptedException | AWTException e) {
+            SmartLogger.logError("Robot not create");
         }
     }
 }

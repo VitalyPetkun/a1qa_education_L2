@@ -1,19 +1,25 @@
 package utils.dataBase;
 
+import services.DataBaseConst;
 import utils.PropertiesManager;
+import utils.SmartLogger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import static services.DataBaseConst.*;
 
 public class DataBaseHandler {
 
-    private static final String JDBC_DRIVER = PropertiesManager.getConfigValue("jdbcDriver");
-    private static final String CONNECTION_URL = URL.getConst().concat(HOST.getConst()).concat(":").
-            concat(PORT.getConst()).concat("/").concat(DATA_BASE_NAME.getConst());
-    private static final String DB_USER = USER.getConst();
-    private static final String DB_PASSWORD = PASSWORD.getConst();
+    private static final String jdbcDriver = PropertiesManager.getConfigValue(DRIVER.getConst());
+    private static final String url = PropertiesManager.getConfigValue(URL.getConst())
+            .concat(PropertiesManager.getConfigValue(HOST.getConst()))
+            .concat(":").concat(PropertiesManager.getConfigValue(PORT.getConst()))
+            .concat("/").concat(PropertiesManager.getConfigValue(DATA_BASE_NAME.getConst()));
+    private static final String user = PropertiesManager.getConfigValue(USER.getConst());
+    private static final String password = PropertiesManager.getConfigValue(PASSWORD.getConst());
 
     private static Connection dbConnection;
 
@@ -22,11 +28,10 @@ public class DataBaseHandler {
 
     public static Connection getDbConnection() {
         try {
-            Class.forName(JDBC_DRIVER);
-            dbConnection = DriverManager.getConnection(CONNECTION_URL, DB_USER, DB_PASSWORD);
-        } catch (Exception ex) {
-            System.out.println("Connection failed...");
-            System.out.println(ex);
+            Class.forName(jdbcDriver);
+            dbConnection = DriverManager.getConnection(url, user, password);
+        } catch (Exception e) {
+            SmartLogger.logError("Error connection dataBase");
         }
 
         return dbConnection;
@@ -47,12 +52,14 @@ public class DataBaseHandler {
                 ++counter;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
         return counter;
     }
 
     public static int randomId(int maxId, int minId) {
+        SmartLogger.logInfo("Get random id");
+
         int number = (int) (Math.random() * (((maxId + 1) - minId) + 1)) + minId;
 
         String strNumber = String.valueOf(number);

@@ -1,6 +1,6 @@
 package services.dataBaseUnionReporting;
 
-public enum DataBaseUnionReporting {
+public enum DataBaseUnionReportingTablesValues {
 
     TEST_TABLE("test"),
     TEST_ID("id"),
@@ -33,7 +33,7 @@ public enum DataBaseUnionReporting {
 
     private String value;
 
-    DataBaseUnionReporting(String value) {
+    DataBaseUnionReportingTablesValues(String value) {
         this.value = value;
     }
 

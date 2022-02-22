@@ -40,21 +40,13 @@ public class RegistrationPageSteps {
         loginForm.domainTxtInput();
     }
 
-    private static void domainExtensionsCmbClick() {
-        loginForm.domainExtensionsCmbClick();
-    }
-
     public static void domainExtensionsItemClick() {
-        domainExtensionsCmbClick();
+        loginForm.domainExtensionsCmbClick();
         loginForm.itemDomainExtensionsCmbClick();
     }
 
-    private static boolean isTermsAndConditionsChkChecked() {
-        return loginForm.isTermsAndConditionsChkChecked();
-    }
-
     public static void termsAndConditionsChkCheck() {
-        if (!isTermsAndConditionsChkChecked())
+        if (!loginForm.isTermsAndConditionsChkChecked())
             loginForm.termsAndConditionsChkCheck();
     }
 
@@ -65,7 +57,6 @@ public class RegistrationPageSteps {
     public static void threeRandomInterestsSelect() {
         Object[] interestsName = avatarAndInterestsForm.getInterestsName().stream().toArray();
         String[] unwantedInterests = {unselectAllInterest, selectAllInterest};
-
         List<Integer> randInterests = RegistrationPageUtils.getRandomList(
                 randomInterestsNumber, avatarAndInterestsForm.getInterestsSize(), interestsName, unwantedInterests);
 
@@ -76,12 +67,8 @@ public class RegistrationPageSteps {
         }
     }
 
-    private static void unloadAvatarBtnClick() {
-        avatarAndInterestsForm.unloadAvatarBtnClick();
-    }
-
     public static void uploadAvatarIcon() {
-        unloadAvatarBtnClick();
+        avatarAndInterestsForm.unloadAvatarBtnClick();
         CooperationWithDialogWindow.openFileDialogWindow(downloadFilePath, downloadFileName);
     }
 

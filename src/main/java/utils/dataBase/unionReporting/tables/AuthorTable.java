@@ -3,14 +3,16 @@ package utils.dataBase.unionReporting.tables;
 import models.AuthorModel;
 import utils.SmartLogger;
 import utils.dataBase.DataBaseHandler;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
 
-public class Author {
+import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
 
-    private Author() {
+public class AuthorTable {
+
+    private AuthorTable() {
     }
 
     public static void add(AuthorModel author) {
@@ -29,7 +31,7 @@ public class Author {
 
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                SmartLogger.logError("ResultSet is null");
             }
         }
     }
@@ -49,7 +51,7 @@ public class Author {
 
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return resultSet;

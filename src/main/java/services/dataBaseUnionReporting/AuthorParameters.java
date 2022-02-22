@@ -1,10 +1,12 @@
 package services.dataBaseUnionReporting;
 
+import static services.ConfigVariables.*;
+
 public enum AuthorParameters {
 
-    VITALY_PETKUN_NAME("Vitaly Petkun"),
-    VITALY_PETKUN_LOGIN("Vitaly"),
-    VITALY_PETKUN_EMAIL("p.u.d.i.n.g.69.v@gmail.com");
+    AUTHOR_NAME(VITALY_PETKUN_NAME.getVariable()),
+    AUTHOR_LOGIN(VITALY_PETKUN_LOGIN.getVariable()),
+    AUTHOR_EMAIL(VITALY_PETKUN_EMAIL.getVariable());
 
     private String parameter;
 

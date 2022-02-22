@@ -6,11 +6,11 @@ import utils.dataBase.DataBaseHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
+import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
 
-public class Status {
+public class StatusTable {
 
-    private Status() {
+    private StatusTable() {
     }
 
     public static ResultSet get(ITestResult result) {
@@ -25,7 +25,7 @@ public class Status {
 
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return resultSet;
@@ -33,12 +33,14 @@ public class Status {
 
     private static String getStatusName(ITestResult result) {
         switch (result.getStatus()) {
+            case ITestResult.SUCCESS:
+                return "PASSED";
             case ITestResult.FAILURE:
                 return "FAILED";
             case ITestResult.SKIP:
                 return "SKIPPED";
-            default:
-                return "PASSED";
         }
+
+        return null;
     }
 }

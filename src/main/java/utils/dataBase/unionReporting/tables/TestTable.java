@@ -3,17 +3,19 @@ package utils.dataBase.unionReporting.tables;
 import models.TestModel;
 import utils.SmartLogger;
 import utils.dataBase.DataBaseHandler;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
 
-public class Test {
+import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
+
+public class TestTable {
 
     private static ResultSet resultSet = null;
     private static int result = 0;
 
-    private Test() {
+    private TestTable() {
     }
 
     public static int add(TestModel test) {
@@ -40,7 +42,7 @@ public class Test {
 
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return result;
@@ -60,7 +62,7 @@ public class Test {
 
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return resultSet;
@@ -74,7 +76,7 @@ public class Test {
             PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return resultSet;
@@ -91,7 +93,7 @@ public class Test {
 
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return result;

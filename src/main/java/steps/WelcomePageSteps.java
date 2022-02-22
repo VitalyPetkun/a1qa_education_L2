@@ -7,7 +7,8 @@ public class WelcomePageSteps {
 
     private static final WelcomePage welcomePage = new WelcomePage();
 
-    private WelcomePageSteps() {}
+    private WelcomePageSteps() {
+    }
 
     public static void nextPageLnkClick() {
         welcomePage.nextPageLnkClick();

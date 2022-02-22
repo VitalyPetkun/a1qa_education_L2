@@ -6,17 +6,27 @@ import models.SessionModel;
 import models.TestModel;
 import org.testng.Assert;
 import org.testng.ITestResult;
+import services.dataBaseUnionReporting.AuthorParameters;
 import utils.PropertiesManager;
 import utils.SmartLogger;
 import utils.dataBase.DataBaseHandler;
 import utils.dataBase.unionReporting.tables.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
-import static services.dataBaseUnionReporting.AuthorParameters.*;
-import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
+
+import static services.ConfigVariables.ENV;
+import static services.ConfigVariables.TIME_ZONE;
+import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
+import static services.dataBaseUnionReporting.DataBaseUnionReportingValues.*;
 
 public class DataBaseUnionReporting {
+
+    private static final int idQuantityLimitation = Integer.parseInt(PropertiesManager.getConfigValue(ID_QUANTITY_LIMITATION.getValue()));
+    private static final int minId = Integer.parseInt(PropertiesManager.getConfigValue(MIN_ID.getValue()));
 
     private static TestModel test = new TestModel();
     private static AuthorModel author = new AuthorModel();
@@ -27,47 +37,48 @@ public class DataBaseUnionReporting {
     }
 
     public static void addResultTest(ITestResult result, String projectName, long startTime, long endTime, int buildNumber) {
-        Project.add(projectName);
+        SmartLogger.logInfo("Add result test in dataBase");
+        ProjectTable.add(projectName);
         setSession(startTime, buildNumber);
-        Session.add(session);
+        SessionTable.add(session);
         setAuthor();
-        Author.add(author);
+        AuthorTable.add(author);
         setTest(result, projectName, startTime, endTime);
-        Test.add(test);
+        TestTable.add(test);
     }
 
     private static TestModel setTest(ITestResult result, String projectName, long startTime, long endTime) {
         SmartLogger.logInfo("Set test data");
-        TimeZone.setDefault(TimeZone.getTimeZone(PropertiesManager.getConfigValue("timeZone")));
+        TimeZone.setDefault(TimeZone.getTimeZone(TIME_ZONE.getVariable()));
         try {
             test.setName(result.getInstanceName());
-            resultSet = Status.get(result);
+            resultSet = StatusTable.get(result);
             resultSet.next();
             test.setStatusId(resultSet.getInt(STATUS_ID.getValue()));
-            resultSet = Project.get(projectName);
+            resultSet = ProjectTable.get(projectName);
             resultSet.next();
             test.setProjectId(resultSet.getInt(PROJECT_ID.getValue()));
-            resultSet = Session.get(session);
+            resultSet = SessionTable.get(session);
             resultSet.next();
             test.setSessionId(resultSet.getInt(SESSION_ID.getValue()));
             test.setStartTime(startTime);
             test.setEndTime(endTime);
-            test.setEnv(System.getenv().get(PropertiesManager.getConfigValue("env")));
+            test.setEnv(ENV.getVariable());
             test.setBrowser(AqualityServices.getBrowser().getBrowserName().toString());
-            resultSet = Author.get(author);
+            resultSet = AuthorTable.get(author);
             resultSet.next();
             test.setAuthorId(resultSet.getInt(AUTHOR_ID.getValue()));
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
         return test;
     }
 
     private static void setAuthor() {
         SmartLogger.logInfo("Set project author");
-        author.setName(VITALY_PETKUN_NAME.getParameter());
-        author.setLogin(VITALY_PETKUN_LOGIN.getParameter());
-        author.setEmail(VITALY_PETKUN_EMAIL.getParameter());
+        author.setName(AuthorParameters.AUTHOR_NAME.getParameter());
+        author.setLogin(AuthorParameters.AUTHOR_LOGIN.getParameter());
+        author.setEmail(AuthorParameters.AUTHOR_EMAIL.getParameter());
     }
 
     private static void setSession(long startTime, int buildNumber) {
@@ -78,20 +89,22 @@ public class DataBaseUnionReporting {
     }
 
     public static void isTestAdd(ITestResult result, String projectName, long startTime, long endTime) {
-        resultSet = Test.get(setTest(result, projectName, startTime, endTime));
+        SmartLogger.logInfo("Checking add test");
+        resultSet = TestTable.get(setTest(result, projectName, startTime, endTime));
         Assert.assertTrue(DataBaseHandler.isItem(resultSet));
     }
 
     public static void copyTestsInDataBase(String projectName) {
+        SmartLogger.logInfo("Copy tests");
         int randomId;
-        resultSet = Test.getSize();
+        resultSet = TestTable.getSize();
         int resultSetSize = DataBaseHandler.resultSetSize(resultSet);
         try {
-            for (int i = 0; i < Integer.parseInt(PropertiesManager.getConfigValue("idQuantityLimitation")); i++) {
+            for (int i = 0; i < idQuantityLimitation; i++) {
                 resultSet.beforeFirst();
                 resultSet.next();
 
-                randomId = DataBaseHandler.randomId(resultSetSize, Integer.parseInt(PropertiesManager.getConfigValue("minId")));
+                randomId = DataBaseHandler.randomId(resultSetSize, minId);
 
                 while (!(randomId == resultSet.getInt(TEST_ID.getValue())))
                     resultSet.next();
@@ -101,7 +114,7 @@ public class DataBaseUnionReporting {
                 int statusId = Integer.parseInt(resultSet.getString(TEST_STATUS_ID.getValue()));
                 test.setStatusId(statusId);
 
-                ResultSet projectResultSet = Project.get(projectName);
+                ResultSet projectResultSet = ProjectTable.get(projectName);
                 projectResultSet.next();
                 test.setProjectId(projectResultSet.getInt(PROJECT_ID.getValue()));
 
@@ -118,14 +131,42 @@ public class DataBaseUnionReporting {
 
                 test.setBrowser(resultSet.getString(TEST_BROWSER.getValue()));
 
-                ResultSet authorResultSet = Author.get(author);
+                ResultSet authorResultSet = AuthorTable.get(author);
                 authorResultSet.next();
                 test.setAuthorId(authorResultSet.getInt(AUTHOR_ID.getValue()));
 
-                Test.add(test);
+                TestTable.add(test);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
+        }
+    }
+
+    public static List<Integer> getCopyTestsId(int copyTestNumber) {
+        SmartLogger.logInfo("Get copy tests id");
+        List<Integer> copyTestsId = new ArrayList<>();
+        resultSet = TestTable.getSize();
+        int testsSize = DataBaseHandler.resultSetSize(resultSet);
+
+        try {
+            for (int i = 0; i < testsSize - copyTestNumber; i++) {
+                resultSet.next();
+            }
+            for (int i = testsSize - copyTestNumber; i < testsSize; i++) {
+                resultSet.next();
+                copyTestsId.add(resultSet.getInt(TEST_ID.getValue()));
+            }
+        } catch (SQLException e) {
+            SmartLogger.logError("ResultSet is null");
+        }
+
+        return copyTestsId;
+    }
+
+    public static void deleteCopyTest(List<Integer> copyTestsId) {
+        SmartLogger.logInfo("Delete copy test");
+        for (int i = 0; i < copyTestsId.size(); i++) {
+            TestTable.delete(copyTestsId.get(i));
         }
     }
 }

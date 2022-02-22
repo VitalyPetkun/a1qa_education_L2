@@ -44,19 +44,19 @@ public class AvatarAndInterestsForm extends Form {
         return interests;
     }
 
-    public void interestCheck(String nameChk) {
-        Map<String, ICheckBox> map = getMap();
-        if (!this.isInterestsChecked(map, nameChk)) {
-            this.interestsCheck(map, nameChk);
-        }
-    }
-
     private boolean isInterestsChecked(Map<String, ICheckBox> map, String nameChk) {
         return map.get(nameChk).isChecked();
     }
 
     private void interestsCheck(Map<String, ICheckBox> map, String nameChk) {
         map.get(nameChk).check();
+    }
+
+    public void interestCheck(String nameChk) {
+        Map<String, ICheckBox> map = getMap();
+        if (!this.isInterestsChecked(map, nameChk)) {
+            this.interestsCheck(map, nameChk);
+        }
     }
 
     public int getInterestsSize() {

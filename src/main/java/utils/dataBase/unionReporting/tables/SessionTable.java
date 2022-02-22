@@ -6,11 +6,11 @@ import utils.dataBase.DataBaseHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static services.dataBaseUnionReporting.DataBaseUnionReporting.*;
+import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
 
-public class Session {
+public class SessionTable {
 
-    private Session() {
+    private SessionTable() {
     }
 
     public static void add(SessionModel session) {
@@ -27,7 +27,7 @@ public class Session {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
     }
 
@@ -44,7 +44,7 @@ public class Session {
 
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SmartLogger.logError("ResultSet is null");
         }
 
         return resultSet;

@@ -20,7 +20,6 @@ public class PropertiesManager {
             return testDataProperties;
         } catch (IOException e) {
             SmartLogger.logError("Don't reading config file");
-            e.printStackTrace();
         }
 
         return null;
