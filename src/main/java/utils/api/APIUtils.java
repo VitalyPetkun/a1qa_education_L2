@@ -1,5 +1,6 @@
 package utils.api;
 
+import io.restassured.http.ContentType;
 import utils.SmartLogger;
 
 import static io.restassured.RestAssured.*;
@@ -14,8 +15,12 @@ public class APIUtils {
         baseURI = currentBaseUri;
     }
 
-    public static Response doGet(String endPoint) {
+    public static Response doGet(String endPoint, ContentType contentType) {
         SmartLogger.logInfo("Get request " + baseURI + endPoint);
-        return new Response(given().get(endPoint).then());
+        return new Response(given()
+                    .accept(contentType)
+                .when()
+                    .get(endPoint)
+                .then());
     }
 }

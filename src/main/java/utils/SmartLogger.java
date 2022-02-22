@@ -21,8 +21,8 @@ public class SmartLogger {
         getLogger().info(message);
     }
 
-    public static void logStep(String message) {
-        getLogger().info(message);
+    public static void logStep(int stepNumber, String message) {
+        getLogger().info(String.format("STEP №%d: %s", stepNumber, message));
     }
 
     public static void logError(String message) {

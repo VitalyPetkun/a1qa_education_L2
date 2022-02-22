@@ -1,10 +1,8 @@
 package services;
 
-import utils.ConfigManager;
-
 public enum Uri {
 
-    MOCKY_URI(ConfigManager.getTestDataValue("mockyUri"));
+    MOCKY_URI("mockyUri");
 
     private String uri;
 

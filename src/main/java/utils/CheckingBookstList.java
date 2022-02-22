@@ -29,36 +29,27 @@ public class CheckingBookstList {
         return false;
     }
 
-    public static Book getExpensiveBook(List<Book> list, boolean cheapBook, boolean expensiveBook) {
-        String book;
-        String cheap = "cheap";
-        String expensive = "expensive";
-
-        if(cheapBook){
-            book = cheap;
-        } else {
-            book = expensive;
-        }
-
+    public static Book getCheapBook(List<Book> list) {
+        SmartLogger.logInfo("Get cheap book");
         int minPrice = 0;
-        int maxPrice = 0;
 
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i).getPrice() < list.get(minPrice).getPrice())
                 minPrice = i;
+        }
+
+        return list.get(minPrice);
+    }
+
+    public static Book getExpensiveBook(List<Book> list) {
+        SmartLogger.logInfo("Get expensive book");
+        int maxPrice = 0;
+
+        for (int i = 0; i < list.size(); i++) {
             if(list.get(i).getPrice() > list.get(maxPrice).getPrice())
                 maxPrice = i;
         }
 
-        switch (book) {
-            case ("cheap"):
-                SmartLogger.logInfo("Get cheap book");
-                return list.get(minPrice);
-            case ("expensive"):
-                SmartLogger.logInfo("Get expensive book");
-                return list.get(maxPrice);
-        }
-
-        return null;
+        return list.get(maxPrice);
     }
  }
