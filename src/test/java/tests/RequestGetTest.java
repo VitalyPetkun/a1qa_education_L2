@@ -1,6 +1,8 @@
 package tests;
 
 import models.Book;
+import org.testng.xml.XmlClass;
+import org.testng.xml.XmlRun;
 import utils.api.APIUtils;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
@@ -23,8 +25,11 @@ public class RequestGetTest extends BaseTest {
         Assert.assertEquals(response.getStatus(), HttpStatus.SC_OK, "Wrong status code returned");
 
         List<Book> books = ObjectConverter.getListXml(response.getBody(), Book[].class);
+        Assert.assertTrue(CheckingBookstList.isAscendingBookIdOrder(books), "List is not sorted by ID ascending");
 
-        Assert.assertTrue(CheckingObjectList.isAscendingObjectIdOrder(books), "List is not sorted by ID ascending");
+        Book cheapBook = CheckingBookstList.getExpensiveBook(books, true, false);
+        Book expensiveBook = CheckingBookstList.getExpensiveBook(books, false, true);
+        Assert.assertNotEquals(cheapBook, expensiveBook,"Books are same");
     }
 }
 
