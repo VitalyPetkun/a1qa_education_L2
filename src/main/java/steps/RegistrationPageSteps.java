@@ -6,6 +6,7 @@ import pages.registrationpage.RegistrationPage;
 import pages.registrationpage.forms.*;
 import utils.PropertiesManager;
 import utils.CooperationWithDialogWindow;
+import utils.RegistrationPageUtils;
 
 import java.util.*;
 
@@ -18,24 +19,17 @@ public class RegistrationPageSteps {
     private static final CookieForm cookieForm = new CookieForm();
     private static final HelpForm helpForm = new HelpForm();
 
-    private RegistrationPageSteps() {}
+    private static final String downloadFilePath = PropertiesManager.getTestDataValue("avatarIconPath");
+    private static final String downloadFileName = PropertiesManager.getTestDataValue("avatarIconName");
+    private static final String unselectAllInterest = "Unselect all";
+    private static final String selectAllInterest = "Select all";
+    private static final int randomInterestsNumber = Integer.parseInt(PropertiesManager.getTestDataValue("randomInterestsNumber"));
 
-    private static String getRandomPassword() {
-        String email = PropertiesManager.getTestDataValue("email");
-        char[] emailToArray = email.toCharArray();
-        String password = String.valueOf(emailToArray[(int) (Math.random() * (emailToArray.length))]);
-        password += String.valueOf(Character.toChars((int) (Math.random() * (91 - 65)) + 65));
-        password += String.valueOf(Character.toChars((int) (Math.random() * (58 - 48)) + 48));
-
-        for (int i = 0; i <= 8 + (int) (Math.random() * 10); i++) {
-            password += String.valueOf(Character.toChars((int) (Math.random() * (123 - 97)) + 97));
-        }
-
-        return password;
+    private RegistrationPageSteps() {
     }
 
     public static void passwordTxtInput() {
-        loginForm.passwordTxtInput(getRandomPassword());
+        loginForm.passwordTxtInput(RegistrationPageUtils.getRandomPassword());
     }
 
     public static void emailTxtInput() {
@@ -68,54 +62,17 @@ public class RegistrationPageSteps {
         loginForm.nextBtnClick();
     }
 
-    private static boolean isInterestsChkChecked(String nameChk) {
-        return avatarAndInterestsForm.isInterestsChkChecked(nameChk);
-    }
-
-    private static int getChkSize() {
-        return avatarAndInterestsForm.getChkSize();
-    }
-
-    private static Set<String> getChkNames() {
-        return avatarAndInterestsForm.getChkName();
-    }
-
-    private static void interestsChkCheck(String nameChk) {
-        avatarAndInterestsForm.interestsChkCheck(nameChk);
-    }
-
     public static void threeRandomInterestsSelect() {
-        int rand;
-        List<Integer> randInterests = new ArrayList<>();
-        int flag;
-        String nameChk;
-        Iterator<String> chkIterator;
+        Object[] interestsName = avatarAndInterestsForm.getInterestsName().stream().toArray();
+        String[] unwantedInterests = {unselectAllInterest, selectAllInterest};
 
-        if (!isInterestsChkChecked("Unselect all"))
-            interestsChkCheck("Unselect all");
+        List<Integer> randInterests = RegistrationPageUtils.getRandomList(
+                randomInterestsNumber, avatarAndInterestsForm.getInterestsSize(), interestsName, unwantedInterests);
 
-        while (randInterests.size() != 3) {
-            chkIterator = getChkNames().iterator();
-            rand = (int) (Math.random() * getChkSize());
+        avatarAndInterestsForm.interestCheck(unselectAllInterest);
 
-            if (!randInterests.contains(rand)) {
-                flag = 0;
-
-                while (chkIterator.hasNext()) {
-                    nameChk = chkIterator.next();
-
-                    if (flag == rand) {
-                        if (!nameChk.equals("Select all") && !nameChk.equals("Unselect all")) {
-                            interestsChkCheck(nameChk);
-                            break;
-                        }
-                    }
-
-                    ++flag;
-                }
-
-                randInterests.add(rand);
-            }
+        for (int i = 0; i < randInterests.size(); i++) {
+            avatarAndInterestsForm.interestCheck(String.valueOf(interestsName[randInterests.get(i)]));
         }
     }
 
@@ -125,7 +82,7 @@ public class RegistrationPageSteps {
 
     public static void uploadAvatarIcon() {
         unloadAvatarBtnClick();
-        CooperationWithDialogWindow.openFileDialogWindow("pathAvatarIcon", "nameAvatarIcon");
+        CooperationWithDialogWindow.openFileDialogWindow(downloadFilePath, downloadFileName);
     }
 
     public static void avatarAndInterestsFormNextBtnClick() {

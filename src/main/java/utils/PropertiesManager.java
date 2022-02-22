@@ -26,7 +26,6 @@ public class PropertiesManager {
         return null;
     }
 
-
     public static String getTestDataValue(String key) {
         return getProperties(TEST_DATA_PATH).getProperty(key);
     }

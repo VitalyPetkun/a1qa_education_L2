@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 public class RegistrationPage extends Form {
 
-    private final ILabel TIMER_LBL = getElementFactory().getLabel(
+    private final ILabel timerLbl = getElementFactory().getLabel(
             By.xpath("//div[contains(@class,'timer')]"), "Label timer");
 
     public RegistrationPage() {
@@ -14,6 +14,6 @@ public class RegistrationPage extends Form {
     }
 
     public String geTimerLblText() {
-        return TIMER_LBL.getText();
+        return timerLbl.getText();
     }
 }

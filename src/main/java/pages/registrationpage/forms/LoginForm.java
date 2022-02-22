@@ -10,24 +10,24 @@ import utils.PropertiesManager;
 
 public class LoginForm extends Form {
 
-    private final ITextBox PASSWORD_TXT = getElementFactory().getTextBox(
+    private final ITextBox passwordTxt = getElementFactory().getTextBox(
             By.xpath("//div[@class='login-form__field-row']//input"), "TextBox password");
-    private final ITextBox EMAIL_TXT = getElementFactory().getTextBox(
+    private final ITextBox emailTxt = getElementFactory().getTextBox(
             By.xpath("//div[@class='align__cell']//input[contains(@placeholder,'email')]"), "TextBox email");
-    private final ITextBox DOMAIN_TXT = getElementFactory().getTextBox(
+    private final ITextBox domainTxt = getElementFactory().getTextBox(
             By.xpath("//div[@class='align__cell']//input[contains(@placeholder,'Domain')]"), "TextBox domain");
 
-    private final IComboBox DOMAIN_EXTENSIONS_CMB = getElementFactory().getComboBox(
+    private final IComboBox domainExtensionsCmb = getElementFactory().getComboBox(
             By.xpath("//div[@class='dropdown__header']//span"), "ComboBox domain extensions");
-    private final IComboBox ITEM_DOMAIN_EXTENSIONS_CMB = getElementFactory().getComboBox(
+    private final IComboBox itemDomainExtensionsCmb = getElementFactory().getComboBox(
             By.xpath("//div[@class='dropdown__list-item' and text()='" +
                     PropertiesManager.getTestDataValue("domainExtensions") + "']"),
             "ComboBoxItem domain extensions");
 
-    private final ICheckBox TERMS_AND_CONDITINS_CHK = getElementFactory().getCheckBox(
+    private final ICheckBox termsAndConditinsChk = getElementFactory().getCheckBox(
             By.xpath("//span[@class='checkbox__box']"), "CheckBox terms and conditions");
 
-    private final IButton NEXT_BTN = getElementFactory().getButton(
+    private final IButton nextBtn = getElementFactory().getButton(
             By.xpath("//a[@class='button--secondary']"), "Button 'Next'");
 
     public LoginForm() {
@@ -35,34 +35,34 @@ public class LoginForm extends Form {
     }
 
     public void passwordTxtInput(String password) {
-        PASSWORD_TXT.clearAndType(password);
+        passwordTxt.clearAndType(password);
     }
 
     public void emailTxtInput() {
-        EMAIL_TXT.clearAndType(PropertiesManager.getTestDataValue("email"));
+        emailTxt.clearAndType(PropertiesManager.getTestDataValue("email"));
     }
 
     public void domainTxtInput() {
-        DOMAIN_TXT.clearAndType(PropertiesManager.getTestDataValue("domain"));
+        domainTxt.clearAndType(PropertiesManager.getTestDataValue("domain"));
     }
 
     public void domainExtensionsCmbClick() {
-        DOMAIN_EXTENSIONS_CMB.clickAndWait();
+        domainExtensionsCmb.clickAndWait();
     }
 
     public void itemDomainExtensionsCmbClick() {
-        ITEM_DOMAIN_EXTENSIONS_CMB.click();
+        itemDomainExtensionsCmb.click();
     }
 
     public boolean isTermsAndConditionsChkChecked() {
-        return TERMS_AND_CONDITINS_CHK.isChecked();
+        return termsAndConditinsChk.isChecked();
     }
 
     public void termsAndConditionsChkCheck() {
-        TERMS_AND_CONDITINS_CHK.check();
+        termsAndConditinsChk.check();
     }
 
     public void nextBtnClick() {
-        NEXT_BTN.click();
+        nextBtn.click();
     }
 }

@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 public class CookieForm extends Form {
 
-    private final IButton NOT_REALLY_NO_BTN = getElementFactory().getButton(
+    private final IButton notReallyNoBtn = getElementFactory().getButton(
             By.xpath("//div[@class='cookies']//button[not(contains(@class,'cookies'))]"),
             "Button 'Not Really, No'");
 
@@ -15,6 +15,6 @@ public class CookieForm extends Form {
     }
 
     public void notReallyNoBtnClick() {
-        NOT_REALLY_NO_BTN.click();
+        notReallyNoBtn.click();
     }
 }

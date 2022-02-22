@@ -7,10 +7,10 @@ import org.openqa.selenium.By;
 
 public class HelpForm extends Form {
 
-    private final IButton SEND_TO_BOTTOM_BTN = getElementFactory().getButton(
+    private final IButton sendToBottomBtn = getElementFactory().getButton(
             By.xpath("//button[contains(@class,'send-to-bottom')]"), "Button 'Send to bottom'");
 
-    private final ILabel TITLE_LBL = getElementFactory().getLabel(
+    private final ILabel titleLbl = getElementFactory().getLabel(
             By.xpath("//h2[contains(@class,'help-form')]"), "Label title");
 
     public HelpForm() {
@@ -18,10 +18,10 @@ public class HelpForm extends Form {
     }
 
     public void sendToBottomBtnClick() {
-        SEND_TO_BOTTOM_BTN.click();
+        sendToBottomBtn.click();
     }
 
     public boolean isLblTitleOnScreen() {
-        return TITLE_LBL.state().isDisplayed();
+        return titleLbl.state().isDisplayed();
     }
 }

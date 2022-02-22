@@ -31,9 +31,9 @@ public class BaseTest {
         endTime = System.currentTimeMillis();
         SmartLogger.logInfo("Add result test in data base");
         DataBaseUnionReporting.addResultTest(result, projectName, startTime, endTime, buildNumber);
-        SmartLogger.logInfo("Quit browser");
-        AqualityServices.getBrowser().getDriver().quit();
         SmartLogger.logInfo("Checking result test in data base");
         DataBaseUnionReporting.isTestAdd(result, projectName, startTime, endTime);
+        SmartLogger.logInfo("Quit browser");
+        AqualityServices.getBrowser().getDriver().quit();
     }
 }
