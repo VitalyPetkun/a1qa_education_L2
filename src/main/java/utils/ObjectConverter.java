@@ -1,25 +1,40 @@
 package utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import models.Book;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class JsonConverter {
+public class ObjectConverter {
 
     private static Gson gson;
+    private static XmlMapper xmlMapper;
 
-    private JsonConverter() {
+    private ObjectConverter() {
         gson = new Gson();
+        xmlMapper = new XmlMapper();
     }
 
     private static Gson getGson() {
         if(gson == null)
-            new JsonConverter();
+            new ObjectConverter();
         return gson;
+    }
+
+    private static XmlMapper getXmlMapper() {
+        if(xmlMapper == null)
+            new ObjectConverter();
+        return xmlMapper;
     }
 
     public static <T> T getObject(JsonReader jsonReader, Class<T> cls) {
@@ -32,13 +47,31 @@ public class JsonConverter {
         return getGson().fromJson(jsonString, cls);
     }
 
-    public static <T> List<T> getList(String jsonString, Class<T> cls) {
-        SmartLogger.logInfo("Converting jsonString to List");
+    public static <T> List<T> getListJson(String jsonString, Class<T> cls) {
+        SmartLogger.logInfo("Converting jsonString to json List");
         List<T> list = new ArrayList<>();
         JsonArray jsonArray = JsonParser.parseString(jsonString).getAsJsonArray();
 
         for (JsonElement jsonElement:jsonArray) {
             list.add(getObject(jsonElement.toString(), cls));
+        }
+
+        return list;
+    }
+
+    public static <T> List<T> getListXml(String xml, Class<T[]> cls) {
+        SmartLogger.logInfo("Converting string to xml List");
+        List<T> list = new ArrayList<>();
+        T[] array = null;
+
+        try {
+            array = getXmlMapper().readValue(xml, cls);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        for (T obj:array) {
+            list.add(obj);
         }
 
         return list;

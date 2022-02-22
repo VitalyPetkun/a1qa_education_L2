@@ -14,7 +14,6 @@ public class Book implements BaseModel {
     public Date publish_date;
     public String description;
     public String id;
-    public String text;
 
     public String getId() {
         return id;

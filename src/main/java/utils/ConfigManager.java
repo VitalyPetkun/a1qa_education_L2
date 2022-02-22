@@ -42,7 +42,7 @@ public class ConfigManager {
     public static <T> T readData(String path, Class<T> cls) {
         SmartLogger.logInfo("Read data in file");
         try (JsonReader reader = new JsonReader(new FileReader(path))) {
-            return JsonConverter.getObject(reader, cls);
+            return ObjectConverter.getObject(reader, cls);
         } catch (IOException e) {
             e.printStackTrace();
         }
