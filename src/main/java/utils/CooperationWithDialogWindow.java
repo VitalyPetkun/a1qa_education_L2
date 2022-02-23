@@ -10,6 +10,7 @@ public class CooperationWithDialogWindow {
     }
 
     public static void openFileDialogWindow(String resourcesPath, String nameFile) {
+        SmartLogger.logInfo("Selecting a file to upload");
         try {
             Thread.sleep(Integer.parseInt(PropertiesManager.getConfigValue("sleepTime")));
             Robot robot = new Robot();

@@ -13,7 +13,7 @@ public class RegistrationPage extends Form {
         super(By.xpath("//div[@class='game view']"), "Registration page");
     }
 
-    public String geTimerLblText() {
+    public String getTextTimerLbl() {
         return timerLbl.getText();
     }
 }

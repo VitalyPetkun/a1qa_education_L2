@@ -14,7 +14,7 @@ public class CookieForm extends Form {
         super(By.xpath("//div[@class='cookies']"), "Cookie form");
     }
 
-    public void notReallyNoBtnClick() {
+    public void clickNotReallyNoBtn() {
         notReallyNoBtn.click();
     }
 }

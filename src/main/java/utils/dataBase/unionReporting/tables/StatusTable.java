@@ -20,7 +20,7 @@ public class StatusTable {
                 concat(STATUS_NAME.getValue()).concat("=?");
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(select);
             preparedStatement.setString(1, getStatusName(result));
 
             resultSet = preparedStatement.executeQuery();

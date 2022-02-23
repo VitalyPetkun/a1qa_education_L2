@@ -3,7 +3,7 @@ package services.dataBaseUnionReporting;
 public enum DataBaseUnionReportingValues {
 
     DATA_FORMAT_FOR_TEST_RESULT("dataFormatForTestResult"),
-    MIN_ID("minId"),
+    TEST_TABLE_MIN_ID("testTableMinId"),
     ID_QUANTITY_LIMITATION("idQuantityLimitation");
 
     private String value;

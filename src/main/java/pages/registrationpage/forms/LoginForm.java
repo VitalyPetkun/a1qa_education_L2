@@ -20,8 +20,7 @@ public class LoginForm extends Form {
     private final IComboBox domainExtensionsCmb = getElementFactory().getComboBox(
             By.xpath("//div[@class='dropdown__header']//span"), "ComboBox domain extensions");
     private final IComboBox itemDomainExtensionsCmb = getElementFactory().getComboBox(
-            By.xpath("//div[@class='dropdown__list-item' and text()='" +
-                    PropertiesManager.getTestDataValue("domainExtensions") + "']"),
+            By.xpath("//div[@class='dropdown__list-item' and text()='" + PropertiesManager.getTestDataValue("domainExtensions") + "']"),
             "ComboBoxItem domain extensions");
 
     private final ICheckBox termsAndConditinsChk = getElementFactory().getCheckBox(
@@ -34,35 +33,35 @@ public class LoginForm extends Form {
         super(By.xpath("//div[@class='login-form__container']"), "Login form");
     }
 
-    public void passwordTxtInput(String password) {
+    public void inputPasswordTxt(String password) {
         passwordTxt.clearAndType(password);
     }
 
-    public void emailTxtInput() {
+    public void inputEmailTxt() {
         emailTxt.clearAndType(PropertiesManager.getTestDataValue("email"));
     }
 
-    public void domainTxtInput() {
+    public void inputDmainTxt() {
         domainTxt.clearAndType(PropertiesManager.getTestDataValue("domain"));
     }
 
-    public void domainExtensionsCmbClick() {
+    public void clickDomainExtensionsCmb() {
         domainExtensionsCmb.clickAndWait();
     }
 
-    public void itemDomainExtensionsCmbClick() {
+    public void clickItemDomainExtensionsCmb() {
         itemDomainExtensionsCmb.click();
     }
 
-    public boolean isTermsAndConditionsChkChecked() {
+    public boolean isCheckedTermsAndConditionsChk() {
         return termsAndConditinsChk.isChecked();
     }
 
-    public void termsAndConditionsChkCheck() {
+    public void checkTermsAndConditionsChk() {
         termsAndConditinsChk.check();
     }
 
-    public void nextBtnClick() {
+    public void clickNextBtn() {
         nextBtn.click();
     }
 }

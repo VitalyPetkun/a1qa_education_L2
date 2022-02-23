@@ -19,7 +19,7 @@ public class RegistrationPageSteps {
     private static final CookieForm cookieForm = new CookieForm();
     private static final HelpForm helpForm = new HelpForm();
 
-    private static final String downloadFilePath = PropertiesManager.getTestDataValue("avatarIconPath");
+    private static final String downloadFilePath = PropertiesManager.getConfigValue("avatarIconPath");
     private static final String downloadFileName = PropertiesManager.getTestDataValue("avatarIconName");
     private static final String unselectAllInterest = "Unselect all";
     private static final String selectAllInterest = "Select all";
@@ -28,103 +28,103 @@ public class RegistrationPageSteps {
     private RegistrationPageSteps() {
     }
 
-    public static void passwordTxtInput() {
-        loginForm.passwordTxtInput(RegistrationPageUtils.getRandomPassword());
+    public static void inputPasswordTxt() {
+        loginForm.inputPasswordTxt(RegistrationPageUtils.getRandomPassword());
     }
 
-    public static void emailTxtInput() {
-        loginForm.emailTxtInput();
+    public static void inputEmailTxt() {
+        loginForm.inputEmailTxt();
     }
 
-    public static void domainTxtInput() {
-        loginForm.domainTxtInput();
+    public static void inputDmainTxt() {
+        loginForm.inputDmainTxt();
     }
 
-    public static void domainExtensionsItemClick() {
-        loginForm.domainExtensionsCmbClick();
-        loginForm.itemDomainExtensionsCmbClick();
+    public static void clickDomainExtensionsItem() {
+        loginForm.clickDomainExtensionsCmb();
+        loginForm.clickItemDomainExtensionsCmb();
     }
 
-    public static void termsAndConditionsChkCheck() {
-        if (!loginForm.isTermsAndConditionsChkChecked())
-            loginForm.termsAndConditionsChkCheck();
+    public static void checkTermsAndConditionsChk() {
+        if (!loginForm.isCheckedTermsAndConditionsChk())
+            loginForm.checkTermsAndConditionsChk();
     }
 
-    public static void loginFormNextBtnClick() {
-        loginForm.nextBtnClick();
+    public static void clickLoginFormNextBtn() {
+        loginForm.clickNextBtn();
     }
 
-    public static void threeRandomInterestsSelect() {
-        Object[] interestsName = avatarAndInterestsForm.getInterestsName().stream().toArray();
+    public static void selectThreeRandomInterests() {
+        Object[] interestsName = avatarAndInterestsForm.getNameInterests().stream().toArray();
         String[] unwantedInterests = {unselectAllInterest, selectAllInterest};
         List<Integer> randInterests = RegistrationPageUtils.getRandomList(
-                randomInterestsNumber, avatarAndInterestsForm.getInterestsSize(), interestsName, unwantedInterests);
+                randomInterestsNumber, avatarAndInterestsForm.getSizeInterests(), interestsName, unwantedInterests);
 
-        avatarAndInterestsForm.interestCheck(unselectAllInterest);
+        avatarAndInterestsForm.checkInterest(unselectAllInterest);
 
         for (int i = 0; i < randInterests.size(); i++) {
-            avatarAndInterestsForm.interestCheck(String.valueOf(interestsName[randInterests.get(i)]));
+            avatarAndInterestsForm.checkInterest(String.valueOf(interestsName[randInterests.get(i)]));
         }
     }
 
     public static void uploadAvatarIcon() {
-        avatarAndInterestsForm.unloadAvatarBtnClick();
+        avatarAndInterestsForm.clickUnloadAvatarBtn();
         CooperationWithDialogWindow.openFileDialogWindow(downloadFilePath, downloadFileName);
     }
 
-    public static void avatarAndInterestsFormNextBtnClick() {
-        avatarAndInterestsForm.nextBtnClick();
+    public static void clickAvatarAndInterestsFormNextBtn() {
+        avatarAndInterestsForm.clickNextBtn();
     }
 
-    public static void notReallyNoBtnClick() {
-        cookieForm.notReallyNoBtnClick();
+    public static void clickNotReallyNoBtn() {
+        cookieForm.clickNotReallyNoBtn();
     }
 
-    public static void sendToBottomBtnClick() {
-        helpForm.sendToBottomBtnClick();
+    public static void clickSendToBottomBtn() {
+        helpForm.clickSendToBottomBtn();
     }
 
     public static void waitForHelpFormHidden() {
-        AqualityServices.getConditionalWait().waitFor(condition -> (!helpForm.isLblTitleOnScreen()));
+        AqualityServices.getConditionalWait().waitFor(condition -> (!helpForm.isDisplayedTitleLbl()));
     }
 
-    private static String getTimerLblText() {
-        return registrationPage.geTimerLblText();
+    private static String getTextTimerLbl() {
+        return registrationPage.getTextTimerLbl();
     }
 
-    public static void assertIsTimerStartFromZero(String time) {
-        Assert.assertEquals(getTimerLblText(), time, "Timer doesn't start from zero.");
+    public static void assertIsStartTimer(String time) {
+        Assert.assertEquals(getTextTimerLbl(), time, "Timer isn't correct.");
     }
 
-    public static void assertIsRegistrationPageOpen() {
+    public static void assertIsOpenRegistrationPage() {
         Assert.assertTrue(registrationPage.state().isDisplayed(), "Registration page isn't open.");
     }
 
-    public static void assertIsLoginFormOpen() {
+    public static void assertIsOpenLoginForm() {
         Assert.assertTrue(loginForm.state().isDisplayed(), "Login form isn't open.");
     }
 
-    public static void assertIsAvatarAndInterestsFormOpen() {
+    public static void assertIsOpenAvatarAndInterestsForm() {
         Assert.assertTrue(avatarAndInterestsForm.state().isDisplayed(), "Avatar and interests form isn't open.");
     }
 
-    public static void assertIsPersonalDetailsFormOpen() {
+    public static void assertIsOpenPersonalDetailsForm() {
         Assert.assertTrue(personalDetailsForm.state().isDisplayed(), "Personal details form isn't open.");
     }
 
-    public static void assertIsCookieFormOpen() {
+    public static void assertIsOpenCookieForm() {
         Assert.assertTrue(cookieForm.state().waitForDisplayed(), "Cookie form isn't open.");
     }
 
-    public static void assertIsCookieFormHidden() {
-        Assert.assertFalse(cookieForm.state().isDisplayed(), "Cookie form isn't hidden.");
+    public static void assertIsCloseCookieForm() {
+        Assert.assertFalse(cookieForm.state().isDisplayed(), "Cookie form isn't close.");
     }
 
-    public static void assertIsHelpFormOpen() {
+    public static void assertIsOpenHelpForm() {
         Assert.assertTrue(helpForm.state().isDisplayed(), "Help form isn't open.");
     }
 
-    public static void assertIsHelpFormHidden() {
+    public static void assertIsHiddenHelpForm() {
         Assert.assertFalse(helpForm.state().isDisplayed(), "Help form isn't hidden.");
     }
 }

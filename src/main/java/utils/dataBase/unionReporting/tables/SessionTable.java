@@ -20,10 +20,10 @@ public class SessionTable {
                 concat(SESSION_BUILD_NUMBER.getValue()).concat(")").concat("VALUES(?,?,?)");
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(insert);
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(insert);
             preparedStatement.setString(1, session.getSessionKey());
             preparedStatement.setString(2, session.getCreatedTime());
-            preparedStatement.setString(3, session.getBuildNumber());
+            preparedStatement.setInt(3, session.getBuildNumber());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -39,7 +39,7 @@ public class SessionTable {
                 concat(SESSION_SESSION_KEY.getValue()).concat("=?");
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(select);
             preparedStatement.setString(1, session.getSessionKey());
 
             resultSet = preparedStatement.executeQuery();

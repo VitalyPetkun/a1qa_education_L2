@@ -13,7 +13,7 @@ public class WelcomePage extends Form {
         super(By.xpath("//button[@class='start__button']"), "Welcome page");
     }
 
-    public void nextPageLnkClick() {
+    public void clickNextPageLnk() {
         nextPageLnk.click();
     }
 }

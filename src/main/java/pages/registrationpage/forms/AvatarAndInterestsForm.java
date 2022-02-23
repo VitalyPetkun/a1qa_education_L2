@@ -44,34 +44,26 @@ public class AvatarAndInterestsForm extends Form {
         return interests;
     }
 
-    private boolean isInterestsChecked(Map<String, ICheckBox> map, String nameChk) {
-        return map.get(nameChk).isChecked();
-    }
-
-    private void interestsCheck(Map<String, ICheckBox> map, String nameChk) {
-        map.get(nameChk).check();
-    }
-
-    public void interestCheck(String nameChk) {
+    public void checkInterest(String nameChk) {
         Map<String, ICheckBox> map = getMap();
-        if (!this.isInterestsChecked(map, nameChk)) {
-            this.interestsCheck(map, nameChk);
+        if (!map.get(nameChk).isChecked()) {
+            map.get(nameChk).check();
         }
     }
 
-    public int getInterestsSize() {
+    public int getSizeInterests() {
         return getMap().keySet().size();
     }
 
-    public Set<String> getInterestsName() {
+    public Set<String> getNameInterests() {
         return getMap().keySet();
     }
 
-    public void unloadAvatarBtnClick() {
+    public void clickUnloadAvatarBtn() {
         unloadAvatarBtn.click();
     }
 
-    public void nextBtnClick() {
+    public void clickNextBtn() {
         nextBtn.click();
     }
 }

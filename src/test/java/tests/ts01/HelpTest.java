@@ -13,17 +13,17 @@ public class HelpTest extends BaseTest {
     public void actionsHelpForm() {
         SmartLogger.logStep(1, "Navigate to welcome page");
         AqualityServices.getBrowser().goTo(PropertiesManager.getTestDataValue("welcomePageURL"));
-        WelcomePageSteps.assertIsWelcomePageOpen();
+        WelcomePageSteps.assertIsOpenWelcomePage();
 
         SmartLogger.logStep(2, "Click link for navigate to login form");
-        WelcomePageSteps.nextPageLnkClick();
-        RegistrationPageSteps.assertIsHelpFormOpen();
+        WelcomePageSteps.clickNextPageLnk();
+        RegistrationPageSteps.assertIsOpenHelpForm();
 
         SmartLogger.logStep(3, "Hiding the help form");
         SmartLogger.logInfo("Click button for help form hidden");
-        RegistrationPageSteps.sendToBottomBtnClick();
+        RegistrationPageSteps.clickSendToBottomBtn();
         SmartLogger.logInfo("Wait for help form hides");
         RegistrationPageSteps.waitForHelpFormHidden();
-        RegistrationPageSteps.assertIsHelpFormHidden();
+        RegistrationPageSteps.assertIsHiddenHelpForm();
     }
 }

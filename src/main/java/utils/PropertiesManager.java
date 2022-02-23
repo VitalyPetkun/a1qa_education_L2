@@ -7,7 +7,7 @@ import java.util.Properties;
 public class PropertiesManager {
 
     private static final String CONFIG_PATH = "src/main/resources/config.properties";
-    private static final String TEST_DATA_PATH = "src/test/java/resources/testData.properties";
+    private static final String TEST_DATA_PATH = "src/test/resources/testData.properties";
 
     private PropertiesManager() {
     }

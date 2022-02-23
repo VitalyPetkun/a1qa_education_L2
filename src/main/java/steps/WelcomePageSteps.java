@@ -10,11 +10,11 @@ public class WelcomePageSteps {
     private WelcomePageSteps() {
     }
 
-    public static void nextPageLnkClick() {
-        welcomePage.nextPageLnkClick();
+    public static void clickNextPageLnk() {
+        welcomePage.clickNextPageLnk();
     }
 
-    public static void assertIsWelcomePageOpen() {
+    public static void assertIsOpenWelcomePage() {
         Assert.assertTrue(welcomePage.state().isDisplayed(), "Welcome page isn't open.");
     }
 }

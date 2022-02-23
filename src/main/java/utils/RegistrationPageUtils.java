@@ -17,6 +17,7 @@ public class RegistrationPageUtils {
     }
 
     public static String getRandomPassword() {
+        SmartLogger.logInfo("Creation a random password");
         String email = PropertiesManager.getTestDataValue("email");
         char[] emailToArray = email.toCharArray();
 
@@ -35,6 +36,7 @@ public class RegistrationPageUtils {
     }
 
     public static List<Integer> getRandomList(int sizeList, int interestsSize, Object[] interestsName, String[] unwantedInterests) {
+        SmartLogger.logInfo("Creation a random list to select interests");
         int unselectAllInterestId = 0;
         int selectAllId = 0;
 

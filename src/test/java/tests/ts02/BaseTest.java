@@ -12,15 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static services.ConfigVariables.PROJECT_NAME;
+import static services.dataBaseUnionReporting.DataBaseUnionReportingValues.ID_QUANTITY_LIMITATION;
 
 public class BaseTest {
 
-    private static final int copyTestNumber = Integer.parseInt(PropertiesManager.getConfigValue("idQuantityLimitation"));
+    private final String projectName = PropertiesManager.getConfigValue(PROJECT_NAME.getVariable());
+    private final int copyTestNumber = Integer.parseInt(PropertiesManager.getTestDataValue(ID_QUANTITY_LIMITATION.getValue()));
+
+    private static int sessionBuildNumber;
+
+    private List<Integer> copyTestsId = new ArrayList<>();
 
     private long startTime;
     private long endTime;
-    private static int sessionBuildNumber;
-    private List<Integer> copyTestsId = new ArrayList<>();
 
     @BeforeMethod
     protected void setup() {
@@ -28,16 +32,18 @@ public class BaseTest {
         AqualityServices.getBrowser().getDriver().manage().window().maximize();
         SmartLogger.logInfo("Timeout load browser");
         AqualityServices.getBrowser().getDriver().manage().timeouts();
-        DataBaseUnionReporting.copyTestsInDataBase(PROJECT_NAME.getVariable());
+        DataBaseUnionReporting.copyTestsInDataBase(projectName);
         copyTestsId = DataBaseUnionReporting.getCopyTestsId(copyTestNumber);
+        SmartLogger.logInfo("Get test start time");
         startTime = System.currentTimeMillis();
         ++sessionBuildNumber;
     }
 
     @AfterMethod
     protected void quitDriver(ITestResult result) {
+        SmartLogger.logInfo("Get test end time");
         endTime = System.currentTimeMillis();
-        DataBaseUnionReporting.addResultTest(result, PROJECT_NAME.getVariable(), startTime, endTime, sessionBuildNumber);
+        DataBaseUnionReporting.addResultTest(result, projectName, startTime, endTime, sessionBuildNumber);
         DataBaseUnionReporting.deleteCopyTest(copyTestsId);
         SmartLogger.logInfo("Quit browser");
         AqualityServices.getBrowser().getDriver().quit();

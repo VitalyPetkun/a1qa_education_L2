@@ -22,16 +22,16 @@ public class TimerTest extends BaseTest {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         SmartLogger.logStep(1, "Navigate to welcome page");
         AqualityServices.getBrowser().goTo(PropertiesManager.getTestDataValue("welcomePageURL"));
-        WelcomePageSteps.assertIsWelcomePageOpen();
+        WelcomePageSteps.assertIsOpenWelcomePage();
 
         SmartLogger.logStep(2, "Click link for navigate to login form");
-        WelcomePageSteps.nextPageLnkClick();
+        WelcomePageSteps.clickNextPageLnk();
         start = System.currentTimeMillis();
-        RegistrationPageSteps.assertIsRegistrationPageOpen();
+        RegistrationPageSteps.assertIsOpenRegistrationPage();
         finish = System.currentTimeMillis();
 
         SmartLogger.logStep(3, "Get start time");
         durationInMillisecond = finish - start;
-        RegistrationPageSteps.assertIsTimerStartFromZero(new SimpleDateFormat(dataFormat).format(durationInMillisecond));
+        RegistrationPageSteps.assertIsStartTimer(new SimpleDateFormat(dataFormat).format(durationInMillisecond));
     }
 }

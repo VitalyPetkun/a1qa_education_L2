@@ -18,15 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-import static services.ConfigVariables.ENV;
-import static services.ConfigVariables.TIME_ZONE;
+import static services.ConfigVariables.*;
 import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
 import static services.dataBaseUnionReporting.DataBaseUnionReportingValues.*;
 
 public class DataBaseUnionReporting {
 
-    private static final int idQuantityLimitation = Integer.parseInt(PropertiesManager.getConfigValue(ID_QUANTITY_LIMITATION.getValue()));
-    private static final int minId = Integer.parseInt(PropertiesManager.getConfigValue(MIN_ID.getValue()));
+    private static final int idQuantityLimitation = Integer.parseInt(PropertiesManager.getTestDataValue(ID_QUANTITY_LIMITATION.getValue()));
+    private static final int testTableMinId = Integer.parseInt(PropertiesManager.getTestDataValue(TEST_TABLE_MIN_ID.getValue()));
+    private static final String env = System.getenv().get(PropertiesManager.getConfigValue(ENV.getVariable()));
+    private static final String timeZone = PropertiesManager.getConfigValue(TIME_ZONE.getVariable());
 
     private static TestModel test = new TestModel();
     private static AuthorModel author = new AuthorModel();
@@ -49,7 +50,7 @@ public class DataBaseUnionReporting {
 
     private static TestModel setTest(ITestResult result, String projectName, long startTime, long endTime) {
         SmartLogger.logInfo("Set test data");
-        TimeZone.setDefault(TimeZone.getTimeZone(TIME_ZONE.getVariable()));
+        TimeZone.setDefault(TimeZone.getTimeZone(timeZone));
         try {
             test.setName(result.getInstanceName());
             resultSet = StatusTable.get(result);
@@ -63,7 +64,7 @@ public class DataBaseUnionReporting {
             test.setSessionId(resultSet.getInt(SESSION_ID.getValue()));
             test.setStartTime(startTime);
             test.setEndTime(endTime);
-            test.setEnv(ENV.getVariable());
+            test.setEnv(env);
             test.setBrowser(AqualityServices.getBrowser().getBrowserName().toString());
             resultSet = AuthorTable.get(author);
             resultSet.next();
@@ -71,14 +72,15 @@ public class DataBaseUnionReporting {
         } catch (SQLException e) {
             SmartLogger.logError("ResultSet is null");
         }
+
         return test;
     }
 
     private static void setAuthor() {
         SmartLogger.logInfo("Set project author");
-        author.setName(AuthorParameters.AUTHOR_NAME.getParameter());
-        author.setLogin(AuthorParameters.AUTHOR_LOGIN.getParameter());
-        author.setEmail(AuthorParameters.AUTHOR_EMAIL.getParameter());
+        author.setName(PropertiesManager.getConfigValue(AuthorParameters.AUTHOR_NAME.getParameter()));
+        author.setLogin(PropertiesManager.getConfigValue(AuthorParameters.AUTHOR_LOGIN.getParameter()));
+        author.setEmail(PropertiesManager.getConfigValue(AuthorParameters.AUTHOR_EMAIL.getParameter()));
     }
 
     private static void setSession(long startTime, int buildNumber) {
@@ -104,7 +106,7 @@ public class DataBaseUnionReporting {
                 resultSet.beforeFirst();
                 resultSet.next();
 
-                randomId = DataBaseHandler.randomId(resultSetSize, minId);
+                randomId = DataBaseHandler.getRandomId(resultSetSize, testTableMinId);
 
                 while (!(randomId == resultSet.getInt(TEST_ID.getValue())))
                     resultSet.next();

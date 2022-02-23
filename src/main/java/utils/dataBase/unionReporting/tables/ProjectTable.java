@@ -2,9 +2,11 @@ package utils.dataBase.unionReporting.tables;
 
 import utils.SmartLogger;
 import utils.dataBase.DataBaseHandler;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import static services.dataBaseUnionReporting.DataBaseUnionReportingTablesValues.*;
 
 public class ProjectTable {
@@ -20,7 +22,7 @@ public class ProjectTable {
                     concat(PROJECT_NAME.getValue()).concat(")").concat("VALUES(?)");
 
             try {
-                PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(insert);
+                PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(insert);
                 preparedStatement.setString(1, projectName);
 
                 preparedStatement.executeUpdate();
@@ -37,7 +39,7 @@ public class ProjectTable {
                 concat(PROJECT_NAME.getValue()).concat("=?");
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(select);
             preparedStatement.setString(1, projectName);
 
             resultSet = preparedStatement.executeQuery();

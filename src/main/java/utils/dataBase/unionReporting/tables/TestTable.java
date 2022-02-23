@@ -28,17 +28,17 @@ public class TestTable {
                 concat(TEST_BROWSER.getValue()).concat(",").concat(TEST_AUTHOR_ID.getValue()).
                 concat(")").concat("VALUES(?,?,?,?,?,?,?,?,?,?)");
 
-        try (PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(insert)) {
+        try (PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(insert)) {
             preparedStatement.setString(1, test.getName());
-            preparedStatement.setString(2, test.getStatusId());
+            preparedStatement.setInt(2, test.getStatusId());
             preparedStatement.setString(3, test.getName());
-            preparedStatement.setString(4, test.getProjectId());
-            preparedStatement.setString(5, test.getSessionId());
+            preparedStatement.setInt(4, test.getProjectId());
+            preparedStatement.setInt(5, test.getSessionId());
             preparedStatement.setString(6, test.getStartTime());
             preparedStatement.setString(7, test.getEndTime());
             preparedStatement.setString(8, test.getEnv());
             preparedStatement.setString(9, test.getBrowser());
-            preparedStatement.setString(10, test.getAuthorId());
+            preparedStatement.setInt(10, test.getAuthorId());
 
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -55,10 +55,10 @@ public class TestTable {
                 concat(TEST_AUTHOR_ID.getValue()).concat("=?");
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(select);
             preparedStatement.setString(1, test.getName());
-            preparedStatement.setString(2, test.getProjectId());
-            preparedStatement.setString(3, test.getAuthorId());
+            preparedStatement.setInt(2, test.getProjectId());
+            preparedStatement.setInt(3, test.getAuthorId());
 
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class TestTable {
         String select = "SELECT * FROM ".concat(TEST_TABLE.getValue());
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(select);
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
             SmartLogger.logError("ResultSet is null");
@@ -88,8 +88,8 @@ public class TestTable {
                 concat(TEST_ID.getValue()).concat("=?");
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
-            preparedStatement.setString(1, String.valueOf(id));
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(select);
+            preparedStatement.setInt(1, id);
 
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {

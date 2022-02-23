@@ -17,11 +17,11 @@ public class HelpForm extends Form {
         super(By.xpath("//a[contains(@class,'help')]"), "Help form");
     }
 
-    public void sendToBottomBtnClick() {
+    public void clickSendToBottomBtn() {
         sendToBottomBtn.click();
     }
 
-    public boolean isLblTitleOnScreen() {
+    public boolean isDisplayedTitleLbl() {
         return titleLbl.state().isDisplayed();
     }
 }

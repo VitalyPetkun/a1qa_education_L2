@@ -24,7 +24,7 @@ public class AuthorTable {
                     concat(AUTHOR_EMAIL.getValue()).concat(")").concat("VALUES(?,?,?)");
 
             try {
-                PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(insert);
+                PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(insert);
                 preparedStatement.setString(1, author.getName());
                 preparedStatement.setString(2, author.getLogin());
                 preparedStatement.setString(3, author.getEmail());
@@ -44,7 +44,7 @@ public class AuthorTable {
                 concat(AUTHOR_EMAIL.getValue()).concat("=?");
 
         try {
-            PreparedStatement preparedStatement = DataBaseHandler.getDbConnection().prepareStatement(select);
+            PreparedStatement preparedStatement = DataBaseHandler.dbConnection().prepareStatement(select);
             preparedStatement.setString(1, author.getName());
             preparedStatement.setString(2, author.getLogin());
             preparedStatement.setString(3, author.getEmail());

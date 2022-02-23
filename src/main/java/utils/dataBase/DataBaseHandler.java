@@ -1,6 +1,5 @@
 package utils.dataBase;
 
-import services.DataBaseConst;
 import utils.PropertiesManager;
 import utils.SmartLogger;
 
@@ -26,7 +25,8 @@ public class DataBaseHandler {
     private DataBaseHandler() {
     }
 
-    public static Connection getDbConnection() {
+    public static Connection dbConnection() {
+        SmartLogger.logInfo("DataBase connection");
         try {
             Class.forName(jdbcDriver);
             dbConnection = DriverManager.getConnection(url, user, password);
@@ -39,6 +39,7 @@ public class DataBaseHandler {
 
 
     public static boolean isItem(ResultSet resultSet) {
+        SmartLogger.logInfo("Checking resultSet for notNull");
         if (resultSetSize(resultSet) > 0)
             return true;
 
@@ -46,6 +47,7 @@ public class DataBaseHandler {
     }
 
     public static int resultSetSize(ResultSet resultSet) {
+        SmartLogger.logInfo("Get size resultSet");
         int counter = 0;
         try {
             while (resultSet.next()) {
@@ -57,13 +59,10 @@ public class DataBaseHandler {
         return counter;
     }
 
-    public static int randomId(int maxId, int minId) {
+    public static int getRandomId(int maxId, int minId) {
         SmartLogger.logInfo("Get random id");
-
         int number = (int) (Math.random() * (((maxId + 1) - minId) + 1)) + minId;
-
-        String strNumber = String.valueOf(number);
-        char[] numberArray = strNumber.toCharArray();
+        char[] numberArray = String.valueOf(number).toCharArray();
 
         for (int i = 0; i < numberArray.length; i++) {
             for (int j = i + 1; j < numberArray.length; j++) {
@@ -73,6 +72,6 @@ public class DataBaseHandler {
             }
         }
 
-        return randomId(maxId, minId);
+        return getRandomId(maxId, minId);
     }
 }

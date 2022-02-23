@@ -13,14 +13,14 @@ public class CookieTest extends BaseTest {
     public void acceptCookie() {
         SmartLogger.logStep(1, "Navigate to welcome page");
         AqualityServices.getBrowser().goTo(PropertiesManager.getTestDataValue("welcomePageURL"));
-        WelcomePageSteps.assertIsWelcomePageOpen();
+        WelcomePageSteps.assertIsOpenWelcomePage();
 
         SmartLogger.logStep(2, "Click link for navigate to login form");
-        WelcomePageSteps.nextPageLnkClick();
-        RegistrationPageSteps.assertIsCookieFormOpen();
+        WelcomePageSteps.clickNextPageLnk();
+        RegistrationPageSteps.assertIsOpenCookieForm();
 
         SmartLogger.logStep(3, "Click button for accept all cookies");
-        RegistrationPageSteps.notReallyNoBtnClick();
-        RegistrationPageSteps.assertIsCookieFormHidden();
+        RegistrationPageSteps.clickNotReallyNoBtn();
+        RegistrationPageSteps.assertIsCloseCookieForm();
     }
 }
